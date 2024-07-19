@@ -1,0 +1,34 @@
+.container {
+	@apply flex flex-col items-center text-[var(--invTextColor)] justify-center text-center pb-[50px];
+	font-weight: 700;
+
+	input {
+		@apply py-[20px] pl-[10%] w-full rounded-3xl mb-5;
+		background: rgba(0, 0, 0, 0.095);
+		border: 0.5px solid #ffffff87;
+		box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.355);
+		outline: none;
+
+		font-size: 20px;
+
+		&::placeholder {
+			color: var(--invTextColor);
+			opacity: 60%;
+		}
+	}
+
+	button {
+		@apply w-[50%] py-5 absolute bottom-5 rounded-full;
+
+		font-weight: 900;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		border: 2px solid #ffffff6d;
+
+		&:hover {
+			letter-spacing: 2px;
+			border: 2px solid transparent;
+			background: var(--activeColor);
+		}
+	}
+}

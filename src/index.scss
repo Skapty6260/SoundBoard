@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+body {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.Poppins {
+	font-family: 'Poppins', sans-serif;
+}
+
+// Theme variables
+body.dark {
+	--neutralColor: #131313;
+	--neutralColor2: #2940a490;
+	--semiTransparent: #1313138d;
+	--semiTransparent2: #2940a44a;
+	--activeColor: rgb(44, 70, 127);
+	--textColor: #eeeded;
+	--invTextColor: rgb(255, 255, 255);
+
+	.mainBg {
+		background: linear-gradient(
+			140deg,
+			var(--neutralColor2) 0%,
+			var(--neutralColor) 100%
+		);
+	}
+}
+
+body.light {
+	--bgColor: #ffffffb7;
+	--neutralColor: #fff;
+	--neutralColor2: #7f97ffd0;
+	--semiTransparent: #e5effe8a;
+	--semiTransparent2: #7f96ff83;
+	--activeColor: rgb(124, 165, 255);
+	--textColor: rgb(25, 25, 25);
+	--invTextColor: #ffffff;
+
+	.mainBg {
+		background: linear-gradient(
+			140deg,
+			var(--bgColor) 0%,
+			var(--neutralColor2) 100%
+		);
+	}
+}
+
+// Global
+// 		Styles
+
+.context-menu-button {
+}

@@ -1,0 +1,71 @@
+.container {
+	@apply mx-20 my-10 space-y-2 w-[90%] h-[90%] flex-col flex;
+	transition: all 0.5s ease-in-out;
+
+	nav {
+		@apply w-full h-[18%] rounded-3xl;
+		background: var(--semiTransparent);
+	}
+
+	.board {
+		@apply w-full h-[82%] rounded-3xl;
+		background: linear-gradient(
+			110deg,
+			var(--semiTransparent) 0%,
+			var(--neutralColor) 100%
+		);
+	}
+}
+
+.ViewControls {
+	@apply flex items-center space-x-5 overflow-x-scroll px-10 w-full h-full justify-center text-[var(--textColor)];
+
+	li:not(.controls_refresh) {
+		flex: 1 0 18%;
+		height: 80%;
+		cursor: pointer;
+		overflow: hidden;
+
+		background: rgba(93, 93, 93, 0.211);
+		border-radius: 15px;
+		position: relative;
+
+		button {
+			font-size: 160%;
+			@apply w-full h-[100%] flex items-center justify-center;
+
+			transition: all 0.15s ease-in-out;
+			&:active {
+				transform: rotate(-30deg) scale(0.8);
+			}
+		}
+
+		&:hover {
+			background: rgba(93, 93, 93, 0.451);
+		}
+	}
+}
+
+.controls_refresh {
+	flex: 1 0 18%;
+	height: 80%;
+	cursor: pointer;
+	overflow: hidden;
+	border-radius: 15px;
+	background: var(--neutralColor2);
+
+	font-size: 380%;
+
+	&:active {
+		border-radius: 9999px;
+		transform: scale(0.5);
+	}
+
+	&:hover {
+		background: var(--activeColor);
+	}
+}
+
+.BoardGrid {
+	// Multiple variants with class toggler
+}

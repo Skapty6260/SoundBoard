@@ -1,0 +1,80 @@
+.navContainer {
+	@apply flex w-screen h-[100px] z-50 -top-[100px] justify-center items-center absolute;
+
+	color: var(--textColor);
+
+	justify-items: space-between;
+	background-color: var(--neutralColor);
+
+	animation: addShadows 0.3s ease-in-out forwards;
+	animation-delay: 0.2s;
+}
+
+.ulContainer {
+	@apply flex space-x-8;
+	justify-items: space-between;
+
+	li:not(.active) {
+		font-weight: 600;
+		font-size: xx-large;
+		transition: transform 0.2s ease-in-out;
+
+		&:hover {
+			color: var(--activeColor);
+			transform: translateY(-5px);
+		}
+	}
+}
+
+.ul2Container {
+	@apply flex absolute right-5 mr-5 items-center align-middle;
+
+	font-weight: 800;
+	font-size: xx-large;
+
+	.userSettings button {
+		margin-left: 20px;
+	}
+
+	.settings {
+		transition: color 0.3s linear;
+		color: rgb(96, 96, 96);
+		margin-bottom: 7px;
+
+		&:hover {
+			@apply animate-spin;
+			animation-duration: 5s;
+			color: var(--activeColor);
+		}
+	}
+}
+
+.active {
+	@apply flex justify-center;
+	font-weight: 600;
+	font-size: xx-large;
+	position: relative;
+
+	&::before {
+		content: '';
+		background: var(--activeColor);
+		position: absolute;
+		width: 70%;
+		height: 3px;
+		padding: 1px;
+		border-radius: 999px;
+		bottom: 0;
+
+		transform: rotate(180deg);
+	}
+}
+
+@keyframes addShadows {
+	0% {
+		box-shadow: none;
+	}
+
+	100% {
+		box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.495);
+	}
+}

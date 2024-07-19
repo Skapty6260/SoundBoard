@@ -1,0 +1,105 @@
+.container {
+	@apply h-full py-10 w-[20%] -left-[20%] text-center;
+	color: var(--textColor);
+
+	max-width: 400px;
+	box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.495);
+
+	font-size: large;
+	font-weight: 600;
+
+	background-color: var(--neutralColor2);
+}
+
+.addCategory {
+	@apply flex justify-between w-full cursor-pointer items-center px-4 text-xl;
+
+	color: var(--invTextColor);
+	font-weight: 900;
+
+	p {
+		&::before {
+			transition: all 0.3s ease-in-out;
+			content: 'Categories';
+		}
+	}
+
+	span {
+		transition: all 0.3s ease-in-out;
+	}
+
+	&:hover span {
+		@apply scale-125;
+	}
+	&:hover p::before {
+		content: 'New Category';
+	}
+}
+
+.categoriesContainer {
+	@apply mt-5 flex flex-col items-start pl-4 overflow-hidden h-full w-full overflow-y-scroll space-y-4;
+
+	li button {
+		@apply flex items-center w-full;
+
+		&:hover p {
+			opacity: 100%;
+			word-break: break-all;
+			white-space: unset;
+			text-overflow: unset;
+		}
+	}
+
+	li i {
+		@apply text-xl text-gray-300;
+	}
+
+	li button p {
+		transition: all 0.2s ease-in-out;
+		color: var(--invTextColor);
+		opacity: 70%;
+		font-weight: 700;
+		font-size: 20px;
+		min-width: fit-content;
+		margin-left: 5px;
+
+		display: inline-block;
+		text-wrap: wrap;
+		white-space: nowrap;
+		overflow: hidden !important;
+		text-overflow: ellipsis;
+		cursor: pointer;
+	}
+
+	li button .opened {
+		@apply animate-bounce text-lg mt-2;
+		opacity: 150%;
+	}
+}
+
+.category {
+	@apply relative w-[80%] flex flex-col text-sm;
+
+	.openedCategory {
+		@apply ml-2 -left-[200vw] top-10 w-full opacity-0 h-full mt-1.5;
+
+		li {
+			@apply w-full bg-[var(--neutralColor)] text-[var(--textColor)] rounded-full py-2 px-4 cursor-pointer;
+
+			display: inline-block;
+			text-wrap: wrap;
+			white-space: nowrap;
+			overflow: hidden !important;
+			text-overflow: ellipsis;
+
+			justify-items: start;
+			justify-content: start;
+			transition: all 0.05s linear;
+			text-align: left;
+
+			&:hover {
+				@apply bg-[var(--activeColor)] border-2 border-white scale-110;
+			}
+		}
+	}
+}

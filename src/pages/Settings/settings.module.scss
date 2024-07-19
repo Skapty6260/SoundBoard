@@ -1,0 +1,44 @@
+.app {
+	@apply w-full h-screen;
+	display: flex;
+}
+
+.navbar {
+	@apply w-[150px] py-12 h-screen bg-[var(--neutralColor2)] flex flex-col justify-between;
+
+	.logo {
+		@apply w-full flex justify-center px-10 font-bold text-xl text-[var(--invTextColor)];
+
+		text-shadow: var(--textColor) 2px 0 10px;
+	}
+
+	.ul1 {
+		@apply flex flex-col space-y-5 ml-3;
+
+		li {
+			font-weight: 600;
+			font-size: 22px;
+			transition: transform 0.2s ease-in-out;
+			cursor: pointer;
+
+			&:hover {
+				color: #ffffff84;
+				transform: translateY(-5px);
+			}
+		}
+	}
+
+	.ul2 {
+		@apply flex w-full justify-center;
+	}
+}
+
+.dashboard {
+	@apply w-full h-screen px-8 py-6 flex flex-col;
+
+	h1 {
+		@apply font-bold text-7xl text-[var(--textColor)];
+		position: relative;
+		z-index: 1;
+	}
+}

@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.Main {
+	font-family: 'Poppins', sans-serif;
+	overflow: hidden;
+	overflow-y: hidden;
+	overflow-x: hidden;
+
+	-moz-user-select: none;
+	user-select: none;
+
+	@apply flex justify-center items-center w-full h-screen;
+
+	&::before {
+		content: '';
+		opacity: 70%;
+		@apply h-screen w-full;
+		position: relative;
+
+		backdrop-filter: blur(100px);
+		-webkit-backdrop-filter: blur(100px);
+
+		// background: linear-gradient(
+		// 	130deg,
+		// 	var(--neutralColor2) 0%,
+		// 	var(--neutralColor) 100%
+		// );
+		background: url('./bg/bg5.jpg') no-repeat;
+		background-size: cover;
+	}
+}
+
+.title {
+	@apply fixed flex justify-center text-center items-end z-[100] top-20;
+
+	background-color: var(--neutralColor);
+	backdrop-filter: blur(50px);
+	-webkit-backdrop-filter: blur(50px);
+
+	h1 {
+		@apply flex justify-center font-bold relative;
+		color: var(--textColor);
+		margin-bottom: 30px;
+		text-shadow: 5px 5px 10px #ffffff93;
+
+		font-size: 44px;
+
+		&::before {
+			@apply animate-pulse;
+
+			content: '';
+			position: absolute;
+			padding: 1px;
+			width: 80%;
+			height: 3.5px;
+			border-radius: 50%;
+			background: var(--activeColor);
+			bottom: -5px;
+		}
+	}
+
+	min-width: 400px;
+	width: 35vw;
+	height: 875px;
+	border: 7.5px solid var(--neutralColor2);
+	border-radius: 45px;
+	top: -200vh;
+}
+
+.LoginForm {
+	position: absolute;
+	background: #fff;
+
+	width: 400px;
+	height: 400px;
+	border-radius: 20px;
+	padding: 40px;
+}

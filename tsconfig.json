@@ -1,0 +1,42 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
+
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
+
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+
+		/* Modules and paths */
+		"baseUrl": "./",
+		"paths": {
+			"@shared/*": ["shared/*"],
+
+			// Electron Server
+			"@e/*": ["electron/*"],
+
+			// Render
+			"@/*": ["src/*"],
+			"components/*": ["./src/components/*"],
+			"types/*": ["./src/config/types/*"],
+			"config": ["./src/config/*"],
+			"pages/*": ["./src/pages/*"],
+			"hooks/*": ["./src/hooks/*"]
+		}
+	},
+	"include": ["src", "electron", "shared"],
+	"references": [{ "path": "./tsconfig.node.json" }]
+}
