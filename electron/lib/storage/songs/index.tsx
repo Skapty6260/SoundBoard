@@ -8,9 +8,12 @@ export async function getSongStoragePath() {
 export async function getAllSongs(path: string) {
 	let songs: string[] = []
 
-	await readdirSync(path).forEach(file => {
-		songs.push(file)
-	})
+	await readdirSync(path).forEach(
+		file => {
+			songs.push(file)
+		},
+		{ withFileTypes: false }
+	)
 
 	return songs
 }

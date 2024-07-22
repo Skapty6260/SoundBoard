@@ -1,5 +1,5 @@
 .container {
-	@apply h-full py-10 w-[20%] -left-[20%] text-center;
+	@apply h-full w-[20%] -left-[20%] text-center;
 	color: var(--textColor);
 
 	max-width: 400px;
@@ -9,6 +9,10 @@
 	font-weight: 600;
 
 	background-color: var(--neutralColor2);
+
+	header {
+		@apply pt-10 pb-0;
+	}
 }
 
 .addCategory {
@@ -37,7 +41,11 @@
 }
 
 .categoriesContainer {
-	@apply mt-5 flex flex-col items-start pl-4 overflow-hidden h-full w-full overflow-y-scroll space-y-4;
+	@apply mt-5 pb-[300px] flex flex-col items-start pl-4 h-[100%] w-full space-y-4;
+	min-width: 200px;
+
+	overflow-y: scroll;
+	overflow-x: hidden;
 
 	li button {
 		@apply flex items-center w-full;
@@ -100,6 +108,36 @@
 			&:hover {
 				@apply bg-[var(--activeColor)] border-2 border-white scale-110;
 			}
+		}
+	}
+}
+
+.search {
+	color: var(--invTextColor);
+	@apply flex items-center mt-6 px-5 w-full space-x-3;
+
+	i {
+		@apply w-[20px] h-[20px];
+
+		transition: all 0.3s ease-in-out;
+		opacity: 50%;
+	}
+
+	&:hover i {
+		@apply scale-110 opacity-100;
+	}
+
+	input {
+		@apply w-full focus:outline-none flex text-left;
+		background: transparent;
+
+		&::placeholder {
+			color: var(--invTextColor);
+			opacity: 50%;
+		}
+
+		&::before {
+			content: '';
 		}
 	}
 }

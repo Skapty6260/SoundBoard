@@ -1,14 +1,31 @@
 import { ICategory } from '@shared/types/SoundTypes'
+import { TSoundboardView } from '@shared/types/app'
 import Store, { Schema } from 'electron-store'
 
 interface IStorageSchema {
+	// App Config
 	soundStoragePath: string
+
+	// View
+	view_soundboard: string
+	view_sidebar: boolean
+
+	// Data
 	userAccounts: string[]
 	soundCategories: ICategory[]
+	sounds: string[]
 }
 export type STORE_KEYS = keyof IStorageSchema
 
 const schema: Schema<IStorageSchema> = {
+	view_soundboard: {
+		type: 'string',
+		default: 'Сols',
+	},
+	view_sidebar: {
+		type: 'boolean',
+		default: false,
+	},
 	soundStoragePath: {
 		type: 'string',
 		default: '',
@@ -26,6 +43,10 @@ const schema: Schema<IStorageSchema> = {
 	userAccounts: {
 		type: 'array',
 		default: ['Vasya', 'petya'],
+	},
+	sounds: {
+		type: 'array',
+		default: [],
 	},
 }
 

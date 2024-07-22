@@ -7,38 +7,75 @@ import {
 	FaTableColumns,
 } from 'react-icons/fa6'
 import { MdOutlineRefresh } from 'react-icons/md'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
+import { TSoundboardView } from '@shared/types/app'
 
-export const SoundBoardControls = () => {
-	const handleClick = (view: string) => {
-		console.log(view)
+interface IProps {
+	refresh: boolean
+	setRefresh: Dispatch<boolean>
+
+	soundboardView: TSoundboardView
+	toggleSoundboardView: Dispatch<SetStateAction<TSoundboardView>>
+}
+
+export const SoundBoardControls = (props: IProps) => {
+	const [variant, setVariant] = useState<TSoundboardView>(props.soundboardView)
+
+	useMemo(() => {
+		setVariant(props.soundboardView)
+	}, [props.soundboardView])
+
+	const handleClick = (view: TSoundboardView) => {
+		props.toggleSoundboardView(view)
 	}
 
-	const handleRefresh = () => {}
-
 	return (
-		<ul className={styles.ViewControls}>
-			<li>
-				<button className={styles.controls_refresh} onClick={handleRefresh}>
+		<ul
+			className={`${styles.ViewControls} ${
+				props.refresh == true ? styles.ViewControls_refresh : ''
+			}`}
+		>
+			<li
+				className={
+					props.refresh == true ? styles.refreshActive : styles.controls_refresh
+				}
+			>
+				<button
+					disabled={props.refresh == true}
+					onClick={() => props.setRefresh(true)}
+				>
 					<MdOutlineRefresh />
 				</button>
 			</li>
-			<li>
-				<button onClick={() => handleClick('Cols')}>
+			<li className={variant == 'Cols' ? styles.active : ''}>
+				<button
+					disabled={props.refresh == true}
+					onClick={() => handleClick('Cols')}
+				>
 					<FaTableColumns />
 				</button>
 			</li>
-			<li>
-				<button onClick={() => handleClick('Rows')}>
+			<li className={variant == 'Rows' ? styles.active : ''}>
+				<button
+					disabled={props.refresh == true}
+					onClick={() => handleClick('Rows')}
+				>
 					<FaTable />
 				</button>
 			</li>
-			<li>
-				<button onClick={() => handleClick('List')}>
+			<li className={variant == 'List' ? styles.active : ''}>
+				<button
+					disabled={props.refresh == true}
+					onClick={() => handleClick('List')}
+				>
 					<FaTableList />
 				</button>
 			</li>
-			<li>
-				<button onClick={() => handleClick('Cells')}>
+			<li className={variant == 'Cells' ? styles.active : ''}>
+				<button
+					disabled={props.refresh == true}
+					onClick={() => handleClick('Cells')}
+				>
 					<FaTableCells />
 				</button>
 			</li>

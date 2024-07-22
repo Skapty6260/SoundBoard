@@ -1,5 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { STORE_KEYS } from '../storage'
+import { getSoundLength } from '@/utils/getSoundLength'
 
 const IPCrenderer = {
 	on(...args: Parameters<typeof ipcRenderer.on>) {
@@ -21,17 +22,7 @@ const IPCrenderer = {
 }
 
 const _window = {
-	minimize: () => ipcRenderer.send('window/minimize'),
-	maximize: () => ipcRenderer.send('window/maximize'),
-
-	show: () => ipcRenderer.send('window/show'),
-	hide: () => ipcRenderer.send('window/hide'),
-
 	quit: () => ipcRenderer.send('window/quit'),
-}
-
-const message = {
-	send: (...args: any[]) => ipcRenderer.send('message', ...args),
 }
 
 const store = {
@@ -43,12 +34,13 @@ const store = {
 const songStorage = {
 	openSongFolder: () => ipcRenderer.invoke('songStorage/openFolder'),
 	getAllSongs: () => ipcRenderer.invoke('songStorage/getAllSongs'),
+	getSoundLength: (path: string) =>
+		ipcRenderer.invoke('songStorage/getSoundLength', path),
 }
 
 export const API = {
 	ipcRenderer: IPCrenderer,
 	window: _window,
-	message: message,
 	store: store,
 	songStorage: songStorage,
 }

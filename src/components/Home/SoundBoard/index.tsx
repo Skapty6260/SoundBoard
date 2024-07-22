@@ -2,8 +2,13 @@ import { motion } from 'framer-motion'
 import styles from './soundboard.module.scss'
 import { SoundBoardControls } from './elements/controls'
 import { SoundBoardBoard } from './elements/board'
+import { useState } from 'react'
+import { useViewContext } from '@/providers/ViewProvider'
 
 const SoundBoard = () => {
+	const [refresh, setRefresh] = useState(false)
+	const { soundboardView, toggleSoundboardView } = useViewContext()
+
 	return (
 		<motion.section
 			animate={{ opacity: 1 }}
@@ -12,10 +17,19 @@ const SoundBoard = () => {
 			className={styles.container}
 		>
 			<nav>
-				<SoundBoardControls />
+				<SoundBoardControls
+					refresh={refresh}
+					setRefresh={setRefresh}
+					soundboardView={soundboardView}
+					toggleSoundboardView={toggleSoundboardView}
+				/>
 			</nav>
 			<div className={styles.board}>
-				<SoundBoardBoard />
+				<SoundBoardBoard
+					loading={refresh}
+					setLoading={setRefresh}
+					variant={soundboardView}
+				/>
 			</div>
 		</motion.section>
 	)

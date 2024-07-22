@@ -20,7 +20,9 @@ const CategoryOpened = memo(({ data }: { data: ISound[] }) => {
 	)
 })
 
-export const Categories = () => {
+export const Categories: React.FC<{ searchQuery: string }> = ({
+	searchQuery,
+}) => {
 	const [data, setData] = useState<ICategory[]>([
 		{
 			title: 'Preinstalled',
@@ -84,6 +86,28 @@ export const Categories = () => {
 		window.api.store.setValue('soundCategories', [...temp])
 	}
 
+	if (searchQuery.length !== 0)
+		return (
+			<ul className={styles.categoriesContainer}>
+				{data.map((item: ICategory, key: any) => {
+					if (item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+						return (
+							<li key={key} className={styles.category}>
+								<button onClick={() => handleClick(item)}>
+									<i className={item.opened ? 'rotate-180' : ''}>
+										<IoMdArrowDropup />
+									</i>
+									<p className={item.opened == true ? styles.opened : ''}>
+										{item.title}
+									</p>
+								</button>
+
+								{item.opened ? <CategoryOpened data={item.sounds} /> : null}
+							</li>
+						)
+				})}
+			</ul>
+		)
 	return (
 		<>
 			<ul className={styles.categoriesContainer}>

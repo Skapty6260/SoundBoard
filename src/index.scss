@@ -40,7 +40,7 @@ body.dark {
 body.light {
 	--bgColor: #ffffffb7;
 	--neutralColor: #fff;
-	--neutralColor2: #7f97ffd0;
+	--neutralColor2: #5b79ffd0;
 	--semiTransparent: #e5effe8a;
 	--semiTransparent2: #7f96ff83;
 	--activeColor: rgb(124, 165, 255);
@@ -59,5 +59,68 @@ body.light {
 // Global
 // 		Styles
 
-.context-menu-button {
+//  SoundBoard
+.soundboard-Cols {
+}
+
+.soundboard-Rows {
+}
+
+.soundboard-Cells {
+}
+
+.soundboard-List {
+	@apply flex flex-col space-y-3;
+
+	.static-board {
+		@apply flex justify-between font-semibold text-gray-500;
+	}
+
+	button {
+		@apply w-full h-[40px] flex justify-between items-center;
+
+		cursor: pointer;
+		font-weight: 600;
+		font-size: x-large;
+		transition: all 0.2s ease-in-out;
+
+		&:hover i {
+			display: flex;
+		}
+
+		&:hover .soundboard_sound_length {
+			display: none;
+		}
+
+		&:hover {
+			@apply h-[60px];
+			border-radius: 20px;
+
+			background: var(--activeColor);
+		}
+
+		&:hover .soundboard_sound_number {
+			opacity: 100%;
+		}
+
+		.soundboard_sound_number {
+			@apply font-semibold text-xl text-center w-[50px];
+			color: var(--textColor);
+			opacity: 65%;
+		}
+
+		i {
+			@apply w-[40px] h-[40px] items-center justify-center hidden mr-4;
+
+			background: var(--neutralColor);
+			border-radius: 10px;
+			border: 2px solid black;
+
+			cursor: pointer;
+
+			&:hover {
+				background: var(--activeColor);
+			}
+		}
+	}
 }

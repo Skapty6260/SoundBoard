@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { windowConfiguration } from './config'
 import { getValue, initStore, setValue, STORE_KEYS } from './lib/storage'
-import { ensureDir } from 'fs-extra'
+import { ensureDir, readFileSync } from 'fs-extra'
 import { getAllSongs } from './lib/storage/songs'
 
 // const require = createRequire(import.meta.url)
@@ -67,6 +67,8 @@ app.whenReady().then(async () => {
 	await ipcMain.handle('store/set', (_, key: STORE_KEYS, value: any) =>
 		setValue(key, value)
 	)
+
+	// Song storage
 	await ipcMain.handle('songStorage/openFolder', async _ => {
 		// try {
 		// 	function ensureAndOpenFolder(path: string) {
@@ -109,6 +111,22 @@ app.whenReady().then(async () => {
 			console.error(error)
 		}
 	})
+	await ipcMain.handle(
+		'songStorage/getSoundLength',
+		async (_, soundName: string) => {
+			try {
+				const storePath = path.join(
+					app.getPath('appData'),
+					`soundboard/songs/${soundName}`
+				)
+
+				const buffer = readFileSync(storePath)
+				return buffer.byteLength
+			} catch (error) {
+				console.error(error)
+			}
+		}
+	)
 
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) {

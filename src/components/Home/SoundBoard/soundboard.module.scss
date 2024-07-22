@@ -20,7 +20,29 @@
 .ViewControls {
 	@apply flex items-center space-x-5 overflow-x-scroll px-10 w-full h-full justify-center text-[var(--textColor)];
 
-	li:not(.controls_refresh) {
+	.active {
+		flex: 1 0 18%;
+		height: 80%;
+		overflow: hidden;
+
+		background: var(--activeColor);
+		transform: scale(1.05);
+		border: 1px solid var(--semiTransparent);
+		border-radius: 15px;
+		position: relative;
+
+		button {
+			font-size: 160%;
+			@apply w-full h-[100%] flex items-center justify-center;
+
+			transition: all 0.15s ease-in-out;
+			&:active {
+				transform: rotate(-30deg) scale(0.8);
+			}
+		}
+	}
+
+	li:not(.controls_refresh, .active, .refreshActive) {
 		flex: 1 0 18%;
 		height: 80%;
 		cursor: pointer;
@@ -46,6 +68,21 @@
 	}
 }
 
+.ViewControls_refresh {
+	li:not(.refreshActive) {
+		@apply animate-pulse;
+		background: rgba(93, 93, 93, 0.211);
+
+		button:disabled {
+			cursor: not-allowed;
+
+			&:active {
+				transform: none;
+			}
+		}
+	}
+}
+
 .controls_refresh {
 	flex: 1 0 18%;
 	height: 80%;
@@ -54,11 +91,17 @@
 	border-radius: 15px;
 	background: var(--neutralColor2);
 
-	font-size: 380%;
+	transition: all 0.5s ease-in-out;
+
+	font-size: 280%;
+
+	button {
+		@apply w-full h-full flex items-center justify-center;
+	}
 
 	&:active {
 		border-radius: 9999px;
-		transform: scale(0.5);
+		transform: scale(0.7) rotate(-20deg);
 	}
 
 	&:hover {
@@ -66,6 +109,20 @@
 	}
 }
 
-.BoardGrid {
-	// Multiple variants with class toggler
+.refreshActive {
+	@apply flex items-center justify-center py-4 px-5;
+	flex: 1 100% 10%;
+	cursor: pointer;
+	overflow: hidden;
+	border-radius: 9999px;
+	transform: scale(0.7) rotate(-20deg);
+	background: var(--neutralColor2);
+
+	font-size: 280%;
+
+	transition: all 0.5s ease-in-out;
+
+	button {
+		@apply animate-spin;
+	}
 }

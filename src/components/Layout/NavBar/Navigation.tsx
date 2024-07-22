@@ -6,18 +6,22 @@ import { IoSettingsOutline } from 'react-icons/io5'
 
 import styles from './Navigation.module.scss'
 import { NavItems } from './NavItems'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { UserDropdown } from '@/components/Dropdowns/UserSettings'
-import { useAppDispatch } from '@/hooks/redux'
-import { useActions } from '@/hooks/useActions'
+import { useViewContext } from '@/providers/ViewProvider'
 
 export const Navigation = () => {
 	const [userSettings, openUserSettings] = useState<boolean>(false)
-	const { toggleSidebar } = useActions()
+	const { sidebar, toggleSidebar } = useViewContext()
+
+	useMemo(() => {
+		window.api.store
+			.setValue('view_soundboard', !sidebar)
+			.then((value: any) => console.log(value))
+	}, [toggleSidebar])
 
 	const handleClick = () => {
-		// Toggle categories sidebar
-		toggleSidebar()
+		toggleSidebar(!sidebar)
 	}
 
 	return (
