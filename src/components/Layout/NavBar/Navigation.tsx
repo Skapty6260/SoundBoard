@@ -10,7 +10,12 @@ import { useMemo, useState } from 'react'
 import { UserDropdown } from '@/components/Dropdowns/UserSettings'
 import { useViewContext } from '@/providers/ViewProvider'
 
-export const Navigation = () => {
+export interface INavBarProps {
+	enableSidebar?: boolean
+	settingsActive?: boolean
+}
+
+export const Navigation = (props: INavBarProps) => {
 	const [userSettings, openUserSettings] = useState<boolean>(false)
 	const { sidebar, toggleSidebar } = useViewContext()
 
@@ -21,7 +26,10 @@ export const Navigation = () => {
 	}, [toggleSidebar])
 
 	const handleClick = () => {
-		toggleSidebar(!sidebar)
+		toggleSidebar({
+			status: !sidebar.status,
+			firstTime: true,
+		})
 	}
 
 	return (
@@ -32,15 +40,17 @@ export const Navigation = () => {
 				exit={{ position: 'relative' }}
 				className={styles.navContainer}
 			>
-				<motion.button
-					initial={{ left: -100, opacity: 0 }}
-					animate={{ left: 10, opacity: 1 }}
-					transition={{ duration: 0.5, delay: 0.4 }}
-					onClick={handleClick}
-					className='absolute left-5 ml-5 font-bold text-4xl'
-				>
-					<FaBarsStaggered />
-				</motion.button>
+				{props.enableSidebar && (
+					<motion.button
+						initial={{ left: -100, opacity: 0 }}
+						animate={{ left: 10, opacity: 1 }}
+						transition={{ duration: 0.5, delay: 0.4 }}
+						onClick={handleClick}
+						className='absolute left-5 ml-5 font-bold text-4xl'
+					>
+						<FaBarsStaggered />
+					</motion.button>
+				)}
 
 				<NavItems />
 
@@ -50,7 +60,13 @@ export const Navigation = () => {
 					transition={{ duration: 0.5, delay: 0.3 }}
 					className={styles.ul2Container}
 				>
-					<li className={`${styles.settings}`}>
+					<li
+						className={
+							props.settingsActive == true
+								? styles.settingsActive
+								: styles.settings
+						}
+					>
 						<Link to={'/settings'} className={styles.Link}>
 							<i>
 								<IoSettingsOutline />

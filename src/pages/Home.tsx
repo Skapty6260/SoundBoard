@@ -2,13 +2,23 @@ import { CategoriesSidebar } from '@/components/Home/Categories/Sidebar'
 import SoundBoard from '@/components/Home/SoundBoard'
 
 import { RootLayout } from './layout'
+import { useViewContext } from '@/providers/ViewProvider'
 
 const Home = () => {
+	const { sidebar, toggleSidebar } = useViewContext()
+
+	window.api.ipcRenderer.invoke('openAuthWindow')
+
 	return (
-		<RootLayout>
+		<RootLayout customNavBar={{ enableSidebar: true }}>
 			<main className='h-screen mainBg overflow-hidden w-full flex flex-col backdrop:blur-xl text-[var(--textColor)]'>
 				<div className='h-[calc(100vh-100px)] top-[100px] relative w-full flex'>
-					<CategoriesSidebar />
+					{sidebar.status && (
+						<CategoriesSidebar
+							sidebar={sidebar}
+							toggleSidebar={toggleSidebar}
+						/>
+					)}
 
 					<SoundBoard />
 				</div>

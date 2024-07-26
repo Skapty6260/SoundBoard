@@ -36,6 +36,13 @@
 		margin-left: 20px;
 	}
 
+	.settingsActive {
+		@apply animate-spin;
+		animation-duration: 10s;
+		margin-bottom: 7px;
+		color: var(--activeColor);
+	}
+
 	.settings {
 		transition: color 0.3s linear;
 		color: rgb(96, 96, 96);

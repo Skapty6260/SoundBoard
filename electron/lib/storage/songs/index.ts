@@ -17,3 +17,5 @@ export async function getAllSongs(path: string) {
 
 	return songs
 }
+
+// export async function getSongLength(path: string) {}

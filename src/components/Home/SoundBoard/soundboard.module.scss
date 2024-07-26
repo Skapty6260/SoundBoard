@@ -9,11 +9,7 @@
 
 	.board {
 		@apply w-full h-[82%] rounded-3xl;
-		background: linear-gradient(
-			110deg,
-			var(--semiTransparent) 0%,
-			var(--neutralColor) 100%
-		);
+		background: var(--semiTransparent);
 	}
 }
 

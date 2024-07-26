@@ -2,7 +2,8 @@ import { ISound } from '@shared/types/SoundTypes'
 import { TSoundboardView } from '@shared/types/app'
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 
-import { FaPlay, FaPause } from 'react-icons/fa'
+import { FaPlay } from 'react-icons/fa' // , FaPause
+// import { Howl } from 'howler'
 
 interface IProps {
 	loading: boolean
@@ -14,21 +15,28 @@ export const SoundBoardBoard = (props: IProps) => {
 	const [sounds, setSounds] = useState<ISound[]>([])
 	const [error, setError] = useState(false)
 
+	const handlePlay = (soundName: string) => {
+		console.log(soundName)
+	}
+
 	useMemo(() => {
 		if (props.loading !== true) return
 
-		window.api.songStorage.getAllSongs().then((value: any) => {
+		window.api.songStorage.getAllSongs().then((value: string[]) => {
+			console.log('Sound files detected: ', value)
+
 			window.api.store
 				.setValue(
 					'sounds',
 					value.map((item: string) => {
-						return { name: item.replace('.mp3', ''), length: 0.0 }
+						return { name: item.replace('.mp3', ''), length: 0 }
 					})
 				)
-				.then((items: Array<any>) => {
-					setSounds(items[1])
+				.then((val: [string, ISound[]]) => {
+					setSounds(val[1])
 				})
-				.catch(() => {
+				.catch(error => {
+					console.error(error)
 					setError(true)
 				})
 
@@ -40,7 +48,7 @@ export const SoundBoardBoard = (props: IProps) => {
 
 	useEffect(() => {
 		if (error == true) return
-		if (sounds.length == 0) {
+		if (sounds?.length == 0) {
 			window.api.store.getValue('sounds').then((value: any) => {
 				setSounds(value)
 			})
@@ -72,10 +80,10 @@ export const SoundBoardBoard = (props: IProps) => {
 				<p>Length</p>
 			</li>
 
-			{sounds.map((item: ISound, key: number) => {
+			{sounds?.map((item: ISound, key: number) => {
 				return (
 					<li key={key}>
-						<button>
+						<button onClick={() => handlePlay(item.name)}>
 							<p className='soundboard_sound_number'>{key + 1}</p>
 							<p className='soundboard_sound_title'>{item.name}</p>
 

@@ -1,5 +1,11 @@
+//   _____ ______   ___   ____     ___         __   ___   ____   _____  ____   ____
+//  / ___/|      | /   \ |    \   /  _]       /  ] /   \ |    \ |     ||    | /    |
+// (   \_ |      ||     ||  D  ) /  [_       /  / |     ||  _  ||   __| |  | |   __|
+//  \__  ||_|  |_||  O  ||    / |    _]     /  /  |  O  ||  |  ||  |_   |  | |  |  |
+//  /  \ |  |  |  |     ||    \ |   [_     /   \_ |     ||  |  ||   _]  |  | |  |_ |
+//  \    |  |  |  |     ||  .  \|     |    \     ||     ||  |  ||  |    |  | |     |
+//   \___|  |__|   \___/ |__|\_||_____|     \____| \___/ |__|__||__|   |____||___,_|
 import { ICategory } from '@shared/types/SoundTypes'
-import { TSoundboardView } from '@shared/types/app'
 import Store, { Schema } from 'electron-store'
 
 interface IStorageSchema {
@@ -57,7 +63,17 @@ export async function initStore() {
 	return store
 }
 
-// Store methods
+//  Methods
+
+//                ('-.   .-') _
+//              _(  OO) (  OO) )
+//   ,----.    (,------./     '._
+//  '  .-./-')  |  .---'|'--...__)
+//  |  |_( O- ) |  |    '--.  .--'
+//  |  | .--, \(|  '--.    |  |
+// (|  | '. (_/ |  .--'    |  |    (Store.get handler)
+//  |  '--'  |  |  `---.   |  |
+//   `------'   `------'   `--'
 export async function getValue(key: STORE_KEYS): Promise<any | null> {
 	return new Promise((resolve, reject) => {
 		const value = store.get(key)
@@ -69,6 +85,15 @@ export async function getValue(key: STORE_KEYS): Promise<any | null> {
 	})
 }
 
+//   .-')      ('-.   .-') _
+//  ( OO ).  _(  OO) (  OO) )
+// (_)---\_)(,------./     '._
+// /    _ |  |  .---'|'--...__)
+// \  :` `.  |  |    '--.  .--'
+//  '..`''.)(|  '--.    |  |
+// .-._)   \ |  .--'    |  |
+// \       / |  `---.   |  |
+//  `-----'  `------'   `--'
 export async function setValue(key: STORE_KEYS, value: any) {
 	try {
 		await store.set(key, value)
@@ -77,11 +102,4 @@ export async function setValue(key: STORE_KEYS, value: any) {
 		console.error(e)
 		return null
 	}
-}
-
-export async function getLocalStorageDir() {
-	return '123'
-	// const dir = ''
-	// // Switch with OS check;
-	// await setValueIfNotExist('localStorageDir', dir)
 }

@@ -53,7 +53,7 @@ export const Categories: React.FC<{ searchQuery: string }> = ({
 
 		window.api.store
 			.getValue('soundCategories')
-			.then((value: any) => {
+			.then(() => {
 				setIsLoading(false)
 				setError(false)
 			})

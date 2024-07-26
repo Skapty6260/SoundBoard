@@ -1,11 +1,9 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 // import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { windowConfiguration } from './config'
-import { getValue, initStore, setValue, STORE_KEYS } from './lib/storage'
-import { ensureDir, readFileSync } from 'fs-extra'
-import { getAllSongs } from './lib/storage/songs'
+import { initStore } from './events'
 
 // const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -31,6 +29,7 @@ function createWindow() {
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.mjs'),
 			sandbox: false,
+			allowRunningInsecureContent: false,
 			nodeIntegration: true,
 			contextIsolation: true,
 		},
@@ -62,71 +61,39 @@ app.on('window-all-closed', () => {
 
 app.commandLine.appendSwitch('use-gl', 'desktop')
 app.whenReady().then(async () => {
+	await import('./events')
 	await initStore()
-	await ipcMain.handle('store/get', (_, key: STORE_KEYS) => getValue(key))
-	await ipcMain.handle('store/set', (_, key: STORE_KEYS, value: any) =>
-		setValue(key, value)
-	)
 
-	// Song storage
-	await ipcMain.handle('songStorage/openFolder', async _ => {
-		// try {
-		// 	function ensureAndOpenFolder(path: string) {
-		// 		ensureSongDir(path)
-		// 			.then(() => {
-		// 				shell.openPath(path)
-		// 			})
-		// 			.catch(e => console.error(e))
-		// 	}
+	// await ipcMain.handle(
+	// 	'songStorage/getSoundLength',
+	// 	async (_, soundName: string) => {
+	// 		try {
+	// 			const storePath = path.join(
+	// 				app.getPath('appData'),
+	// 				`soundboard/songs/${soundName}`
+	// 			)
 
-		// 	let value = await getValue('soundStoragePath')
-		// 	const defaultPath = path.join(app.getPath('appData'), 'soundboard/songs')
+	// 			const buffer = readFileSync(storePath)
+	// 			return buffer.byteLength
+	// 		} catch (error) {
+	// 			console.error(error)
+	// 		}
+	// 	}
+	// )
+	// await ipcMain.handle(
+	// 	'songStorage/playSound',
+	// 	async (_, soundName: string) => {
+	// 		try {
+	// 			const audio = path.join(
+	// 				app.getPath('appData') + `soundboard/songs/${soundName}.mp3`
+	// 			)
 
-		// 	if (!value || value?.length == 0) {
-		// 		return setValue('soundStoragePath', defaultPath).then(() =>
-		// 			ensureAndOpenFolder(defaultPath)
-		// 		)
-		// 	} else {
-		// 		ensureAndOpenFolder(value)
-		// 	}
-		// } catch (e) {
-		// 	console.error(e)
-		// }
-
-		try {
-			let storePath = path.join(app.getPath('appData'), 'soundboard/songs')
-
-			ensureSongDir(storePath).then(() => {
-				shell.openPath(storePath)
-			})
-		} catch (error) {
-			console.error(error)
-		}
-	})
-	await ipcMain.handle('songStorage/getAllSongs', async _ => {
-		try {
-			let storePath = path.join(app.getPath('appData'), 'soundboard/songs')
-			return getAllSongs(storePath)
-		} catch (error) {
-			console.error(error)
-		}
-	})
-	await ipcMain.handle(
-		'songStorage/getSoundLength',
-		async (_, soundName: string) => {
-			try {
-				const storePath = path.join(
-					app.getPath('appData'),
-					`soundboard/songs/${soundName}`
-				)
-
-				const buffer = readFileSync(storePath)
-				return buffer.byteLength
-			} catch (error) {
-				console.error(error)
-			}
-		}
-	)
+	// 			return audio
+	// 		} catch (error) {
+	// 			console.error(error)
+	// 		}
+	// 	}
+	// )
 
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) {
@@ -140,9 +107,5 @@ app.whenReady().then(async () => {
 		win?.show()
 	})
 })
-
-export async function ensureSongDir(path: string) {
-	ensureDir(path)
-}
 
 ipcMain.on('window/quit', () => app.quit())

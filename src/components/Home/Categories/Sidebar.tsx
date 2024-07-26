@@ -4,16 +4,26 @@ import styles from './Sidebar.module.scss'
 import { Categories } from './Categories'
 import { useEffect, useState } from 'react'
 import { CategoriesModal } from '@/components/Modals/CategoriesModal'
-import { useViewContext } from '@/providers/ViewProvider'
 
 import { FaSearch } from 'react-icons/fa'
 
-export const CategoriesSidebar = () => {
+export const CategoriesSidebar: React.FC<{
+	sidebar: { status: boolean; firstTime: boolean }
+	toggleSidebar: any
+}> = ({ sidebar, toggleSidebar }) => {
 	const [modal, setModal] = useState<{ opened: boolean }>({ opened: false })
-	const { sidebar } = useViewContext()
 
 	const [searchQuery, setSearchQuery] = useState<string>('')
 	const [timer, setTimer] = useState<any>(0)
+
+	useEffect(() => {
+		window.api.store.getValue('view_sidebar').then((value: boolean) => {
+			toggleSidebar({
+				status: value,
+				firstTime: false,
+			})
+		})
+	}, [])
 
 	const handleSearch = (val: string) => {
 		let prevVal = searchQuery
@@ -27,13 +37,15 @@ export const CategoriesSidebar = () => {
 		}
 	}
 
-	if (sidebar == false) return null
 	return (
 		<motion.aside
 			animate={{ left: 0, position: 'relative' }}
 			initial={{ position: 'absolute' }}
-			exit={{ position: 'relative' }}
-			transition={{ duration: 0.3, delay: 0 }}
+			transition={{
+				duration: 0.3,
+				delay: sidebar.firstTime == true ? 0 : 0.5,
+			}}
+			exit={{ left: -100 }}
 			className={styles.container}
 		>
 			<motion.header>
