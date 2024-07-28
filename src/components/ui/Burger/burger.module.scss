@@ -1,0 +1,77 @@
+.logoIcon {
+	color: #fff;
+	width: 60px;
+	height: 80px;
+	border-radius: 10px;
+	position: relative;
+	transition: all 0.4s ease-in-out;
+	box-shadow: 0 0 10px var(--AccentColor);
+
+	&:hover {
+		cursor: pointer;
+		transform: rotate(180deg);
+		border-radius: 30px;
+	}
+
+	&:hover .hamburgerLine1 {
+		width: 90%;
+		height: 5px;
+		transform: translate(-50%, 20px);
+	}
+
+	&:hover .hamburgerLine3 {
+		width: 90%;
+		height: 5px;
+		transform: translate(-50%, 7px);
+	}
+}
+
+.hamburgerLine1,
+.hamburgerLine2,
+.hamburgerLine3 {
+	transition: all 0.4s ease-in-out;
+	background: var(--textColor);
+	width: 60%;
+	height: 3px;
+	border-radius: 5px;
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -6px) scale(1.5);
+}
+
+.hamburgerLine1 {
+	width: 42%;
+	transform: translate(-30%, -20px) scale(1.5);
+}
+
+.hamburgerLine3 {
+	width: 42%;
+	transform: translate(-57.5%, 8px) scale(1.5);
+}
+
+// Hamburger Opened
+.hamburgerLine1Open,
+.hamburgerLine3Open {
+	transition: all 0.4s ease-in-out;
+	background: var(--textColor);
+	width: 60%;
+	height: 0.2rem;
+	border-radius: 5px;
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.hamburgerLine1Open {
+	width: 70%;
+	transform: translate(-50%, -0.1rem) rotate(45deg);
+}
+
+.hamburgerLine3Open {
+	width: 70%;
+	transform: translate(-50%, -0.1rem) rotate(-45deg);
+}

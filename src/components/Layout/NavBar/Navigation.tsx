@@ -6,24 +6,21 @@ import { IoSettingsOutline } from 'react-icons/io5'
 
 import styles from './Navigation.module.scss'
 import { NavItems } from './NavItems'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { UserDropdown } from '@/components/Dropdowns/UserSettings'
 import { useViewContext } from '@/providers/ViewProvider'
+import { BiExtension, BiSolidExtension } from 'react-icons/bi'
+import { Hamburger } from '@/components/ui/Burger'
 
 export interface INavBarProps {
 	enableSidebar?: boolean
 	settingsActive?: boolean
+	extensionsActive?: boolean
 }
 
 export const Navigation = (props: INavBarProps) => {
 	const [userSettings, openUserSettings] = useState<boolean>(false)
 	const { sidebar, toggleSidebar } = useViewContext()
-
-	useMemo(() => {
-		window.api.store
-			.setValue('view_soundboard', !sidebar)
-			.then((value: any) => console.log(value))
-	}, [toggleSidebar])
 
 	const handleClick = () => {
 		toggleSidebar({
@@ -46,9 +43,9 @@ export const Navigation = (props: INavBarProps) => {
 						animate={{ left: 10, opacity: 1 }}
 						transition={{ duration: 0.5, delay: 0.4 }}
 						onClick={handleClick}
-						className='absolute left-5 ml-5 font-bold text-4xl'
+						className='absolute left-5 ml-5'
 					>
-						<FaBarsStaggered />
+						<Hamburger />
 					</motion.button>
 				)}
 
@@ -70,6 +67,24 @@ export const Navigation = (props: INavBarProps) => {
 						<Link to={'/settings'} className={styles.Link}>
 							<i>
 								<IoSettingsOutline />
+							</i>
+						</Link>
+					</li>
+
+					<li className={styles.extensions}>
+						<Link to={'/extensions'} className={styles.Link}>
+							<i
+								className={
+									props.extensionsActive == true
+										? 'text-[var(--textColor)]'
+										: ''
+								}
+							>
+								{props.extensionsActive == true ? (
+									<BiSolidExtension />
+								) : (
+									<BiExtension />
+								)}
 							</i>
 						</Link>
 					</li>

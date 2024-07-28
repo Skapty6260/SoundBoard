@@ -12,6 +12,7 @@ body {
 	::-webkit-scrollbar {
 		display: none;
 	}
+	user-select: none;
 }
 
 .Poppins {
@@ -20,8 +21,10 @@ body {
 
 // Theme variables
 body.dark {
+	--bgColor: #131313a1;
+	--bgColor2: #2940a4b3;
 	--neutralColor: #131313;
-	--neutralColor2: #2940a490;
+	--neutralColor2: #2940a4;
 	--semiTransparent: #1313138d;
 	--semiTransparent2: #2940a44a;
 	--activeColor: rgb(44, 70, 127);
@@ -31,16 +34,17 @@ body.dark {
 	.mainBg {
 		background: linear-gradient(
 			140deg,
-			var(--neutralColor2) 0%,
-			var(--neutralColor) 100%
+			var(--bgColor2) 0%,
+			var(--bgColor) 100%
 		);
 	}
 }
 
 body.light {
 	--bgColor: #ffffffb7;
+	--bgColor2: #5b79ffb7;
 	--neutralColor: #fff;
-	--neutralColor2: #5b79ffd0;
+	--neutralColor2: #5b79ff;
 	--semiTransparent: #e5effe8a;
 	--semiTransparent2: #7f96ff83;
 	--activeColor: rgb(124, 165, 255);
@@ -51,7 +55,7 @@ body.light {
 		background: linear-gradient(
 			140deg,
 			var(--bgColor) 0%,
-			var(--neutralColor2) 100%
+			var(--bgColor2) 100%
 		);
 	}
 }

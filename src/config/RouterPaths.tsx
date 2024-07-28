@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router'
-import { Home, Editor, Workshop, Login, Settings } from '@/pages'
+import { Home, Editor, Workshop, Login, Settings, Extensions } from '@/pages'
 
 export const RouterPaths: RouteObject[] = [
 	{
@@ -21,5 +21,9 @@ export const RouterPaths: RouteObject[] = [
 	{
 		path: '/workshop',
 		element: <Workshop />,
+	},
+	{
+		path: '/extensions',
+		element: <Extensions />,
 	},
 ]

@@ -5,66 +5,20 @@
 //  /  \ |  |  |  |     ||    \ |   [_     /   \_ |     ||  |  ||   _]  |  | |  |_ |
 //  \    |  |  |  |     ||  .  \|     |    \     ||     ||  |  ||  |    |  | |     |
 //   \___|  |__|   \___/ |__|\_||_____|     \____| \___/ |__|__||__|   |____||___,_|
-import { ICategory } from '@shared/types/SoundTypes'
-import Store, { Schema } from 'electron-store'
+import { IStorageSchema, storeSchema } from '../../config/store'
+import Store from 'electron-store'
 
-interface IStorageSchema {
-	// App Config
-	soundStoragePath: string
-
-	// View
-	view_soundboard: string
-	view_sidebar: boolean
-
-	// Data
-	userAccounts: string[]
-	soundCategories: ICategory[]
-	sounds: string[]
-}
 export type STORE_KEYS = keyof IStorageSchema
 
-const schema: Schema<IStorageSchema> = {
-	view_soundboard: {
-		type: 'string',
-		default: 'Сols',
-	},
-	view_sidebar: {
-		type: 'boolean',
-		default: false,
-	},
-	soundStoragePath: {
-		type: 'string',
-		default: '',
-	},
-	soundCategories: {
-		type: 'array',
-		default: [
-			{
-				title: 'Preinstalled',
-				opened: false,
-				sounds: [],
-			},
-		],
-	},
-	userAccounts: {
-		type: 'array',
-		default: ['Vasya', 'petya'],
-	},
-	sounds: {
-		type: 'array',
-		default: [],
-	},
-}
-
-let store = new Store<IStorageSchema>({ schema })
+let store: Store
 
 export async function initStore() {
-	store = await new Store<IStorageSchema>({ schema })
+	// @ts-ignore
+	store = await new Store<IStorageSchema>({ storeSchema })
 	return store
 }
 
 //  Methods
-
 //                ('-.   .-') _
 //              _(  OO) (  OO) )
 //   ,----.    (,------./     '._
@@ -74,15 +28,16 @@ export async function initStore() {
 // (|  | '. (_/ |  .--'    |  |    (Store.get handler)
 //  |  '--'  |  |  `---.   |  |
 //   `------'   `------'   `--'
-export async function getValue(key: STORE_KEYS): Promise<any | null> {
-	return new Promise((resolve, reject) => {
-		const value = store.get(key)
+export async function getValue(key: STORE_KEYS): Promise<any> {
+	try {
+		const value = await store.get(key)
 		if (value) {
-			resolve(value)
-		}
-
-		reject(null)
-	})
+			return value
+		} else return null
+	} catch (e) {
+		console.error(e)
+		return null
+	}
 }
 
 //   .-')      ('-.   .-') _
@@ -90,7 +45,7 @@ export async function getValue(key: STORE_KEYS): Promise<any | null> {
 // (_)---\_)(,------./     '._
 // /    _ |  |  .---'|'--...__)
 // \  :` `.  |  |    '--.  .--'
-//  '..`''.)(|  '--.    |  |
+//  '..`''.)(|  '--.    |  |	(Store.set handler)
 // .-._)   \ |  .--'    |  |
 // \       / |  `---.   |  |
 //  `-----'  `------'   `--'

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 import styles from './Sidebar.module.scss'
 import { Categories } from './Categories'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CategoriesModal } from '@/components/Modals/CategoriesModal'
 
 import { FaSearch } from 'react-icons/fa'
@@ -18,6 +18,9 @@ export const CategoriesSidebar: React.FC<{
 
 	useEffect(() => {
 		window.api.store.getValue('view_sidebar').then((value: boolean) => {
+			if (value == sidebar.status) return
+			if (value == null) return
+
 			toggleSidebar({
 				status: value,
 				firstTime: false,
@@ -37,6 +40,40 @@ export const CategoriesSidebar: React.FC<{
 		}
 	}
 
+	const ref = useRef<any>(null)
+	useEffect(() => {
+		let styles = window.getComputedStyle(ref.current)
+		let width = parseInt(styles.width, 10)
+
+		let x = 0
+
+		const onMouseMoveResize = (e: MouseEvent) => {
+			let dx = e.clientX - x
+			x = e.clientX
+			width = width + dx
+			ref.current.style.width = `${width}px`
+		}
+
+		const onMouseUpResize = () => {
+			document.removeEventListener('mousemove', onMouseMoveResize)
+		}
+
+		const onMouseDownResize = (e: MouseEvent) => {
+			x = e.clientX
+
+			ref.current.style.width = x + 'px'
+
+			document.addEventListener('mousemove', onMouseMoveResize)
+			document.addEventListener('mouseup', onMouseUpResize)
+		}
+
+		ref?.current?.addEventListener('mousedown', onMouseDownResize)
+
+		return () => {
+			ref?.current?.removeEventListener('mousedown', onMouseDownResize)
+		}
+	}, [])
+
 	return (
 		<motion.aside
 			animate={{ left: 0, position: 'relative' }}
@@ -47,6 +84,7 @@ export const CategoriesSidebar: React.FC<{
 			}}
 			exit={{ left: -100 }}
 			className={styles.container}
+			ref={ref}
 		>
 			<motion.header>
 				<button
@@ -79,6 +117,8 @@ export const CategoriesSidebar: React.FC<{
 					isOpened={modal.opened}
 				/>
 			}
+
+			<div className={styles.resizeContainer} />
 		</motion.aside>
 	)
 }

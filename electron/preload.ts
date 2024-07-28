@@ -22,6 +22,13 @@ const IPCrenderer = {
 	},
 }
 
+const player = {
+	play_toOutput: (sound_path: string) =>
+		ipcRenderer.invoke('player/playOutput', sound_path),
+	play_toInput: (sound_path: string) =>
+		ipcRenderer.invoke('player/playMicrophone', sound_path),
+}
+
 const _window = {
 	quit: () => ipcRenderer.send('window/quit'),
 }
@@ -37,14 +44,13 @@ const songStorage = {
 	getAllSongs: () => ipcRenderer.invoke('song_store/get_songs'),
 	getSoundLength: (path: string) =>
 		ipcRenderer.invoke('songStorage/getSoundLength', path),
-	playSound: (path: string) =>
-		ipcRenderer.invoke('songStorage/playSound', path),
 }
 
 export const API = {
 	ipcRenderer: IPCrenderer,
 	window: _window,
 	store: store,
+	player: player,
 	songStorage: songStorage,
 }
 

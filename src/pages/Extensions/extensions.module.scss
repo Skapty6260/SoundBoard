@@ -1,0 +1,19 @@
+.topSection {
+	@apply w-screen h-screen flex flex-col items-center;
+	position: fixed;
+	top: 0;
+
+	color: var(--invTextColor);
+}
+
+.tabList {
+	@apply w-[60vw] flex items-center justify-center;
+	border-radius: 999px !important;
+	background: var(--neutralColor);
+
+	li {
+		&:hover {
+			color: var(--activeColor) !important;
+		}
+	}
+}

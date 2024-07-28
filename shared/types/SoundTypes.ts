@@ -1,7 +1,7 @@
 export interface ISound {
 	name: string
-	path: string
 	author: string
+	shortcut: string
 	length: number // MS
 }
 

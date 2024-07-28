@@ -1,8 +1,9 @@
 .container {
-	@apply h-full w-[20%] -left-[20%] text-center;
+	@apply h-full w-[20%] -left-[20%] text-center overflow-hidden;
 	color: var(--textColor);
 
-	max-width: 400px;
+	min-width: 200px;
+
 	box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.495);
 
 	font-size: large;
@@ -37,6 +38,15 @@
 	}
 	&:hover p::before {
 		content: 'New Category';
+	}
+}
+
+.resizeContainer {
+	content: '';
+	cursor: e-resize;
+	@apply w-[3px] h-full bg-transparent absolute -right-0 top-0;
+	&:hover {
+		background: red;
 	}
 }
 

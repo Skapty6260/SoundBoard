@@ -27,13 +27,20 @@
 }
 
 .ul2Container {
-	@apply flex absolute right-5 mr-5 items-center align-middle;
+	@apply flex absolute right-5 mr-5 items-center align-middle space-x-3;
 
 	font-weight: 800;
 	font-size: xx-large;
 
+	.extensions {
+		color: rgb(96, 96, 96);
+		position: relative;
+		margin-bottom: 7px;
+		font-size: 37.5px;
+	}
+
 	.userSettings button {
-		margin-left: 20px;
+		transition: color 0.1s ease-in-out;
 	}
 
 	.settingsActive {

@@ -7,7 +7,9 @@ import { useViewContext } from '@/providers/ViewProvider'
 const Home = () => {
 	const { sidebar, toggleSidebar } = useViewContext()
 
-	window.api.ipcRenderer.invoke('openAuthWindow')
+	window.api.ipcRenderer.invoke('openAuthWindow').then(res => {
+		console.log(res)
+	})
 
 	return (
 		<RootLayout customNavBar={{ enableSidebar: true }}>

@@ -1,24 +1,23 @@
 .container {
-	@apply mx-20 my-10 space-y-2 w-[90%] h-[90%] flex-col flex;
+	@apply mx-20 my-10 space-y-2 w-[90%] h-[90%] space-x-3 items-center flex;
 	transition: all 0.5s ease-in-out;
 
 	nav {
-		@apply w-full h-[18%] rounded-3xl;
-		background: var(--semiTransparent);
+		@apply flex justify-between w-full items-center;
 	}
 
 	.board {
-		@apply w-full h-[82%] rounded-3xl;
+		@apply w-full h-full rounded-3xl;
 		background: var(--semiTransparent);
 	}
 }
 
 .ViewControls {
-	@apply flex items-center space-x-5 overflow-x-scroll px-10 w-full h-full justify-center text-[var(--textColor)];
+	@apply flex flex-col justify-center space-x-5 overflow-y-scroll py-4 w-full h-full text-[var(--textColor)];
 
 	.active {
-		flex: 1 0 18%;
-		height: 80%;
+		height: 60%;
+		width: 100%;
 		overflow: hidden;
 
 		background: var(--activeColor);
@@ -39,8 +38,8 @@
 	}
 
 	li:not(.controls_refresh, .active, .refreshActive) {
-		flex: 1 0 18%;
-		height: 80%;
+		height: 50%;
+		width: 100%;
 		cursor: pointer;
 		overflow: hidden;
 

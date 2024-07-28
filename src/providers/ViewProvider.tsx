@@ -5,7 +5,6 @@ import {
 	createContext,
 	useContext,
 	useEffect,
-	useMemo,
 	useState,
 } from 'react'
 
@@ -55,8 +54,11 @@ export const ViewProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	// Sync with store (set)
 	useEffect(() => {
+		console.log(sidebar)
+
 		window.api.store.setValue('view_sidebar', sidebar.status)
 	}, [sidebar])
+
 	useEffect(() => {
 		window.api.store.setValue('view_soundboard', soundboardView)
 	}, [soundboardView])

@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
 import styles from './soundboard.module.scss'
-import { SoundBoardControls } from './elements/controls'
 import { SoundBoardBoard } from './elements/board'
 import { useEffect, useState } from 'react'
 import { useViewContext } from '@/providers/ViewProvider'
+// import { SoundBoardControls } from './elements/controls'
 
 const SoundBoard = () => {
 	const [refresh, setRefresh] = useState(false)
@@ -22,15 +22,24 @@ const SoundBoard = () => {
 			transition={{ duration: 1, delay: 0.5 }}
 			className={styles.container}
 		>
-			<nav>
+			{/* <nav>
 				<SoundBoardControls
 					refresh={refresh}
 					setRefresh={setRefresh}
 					soundboardView={soundboardView}
 					toggleSoundboardView={toggleSoundboardView}
 				/>
-			</nav>
+			</nav> */}
 			<div className={styles.board}>
+				<nav>
+					<h1 className='font-semibold text-[var(--textColor)] text-4xl px-12 py-4'>
+						SoundBoard
+					</h1>
+
+					{/* Settings */}
+					<ul></ul>
+				</nav>
+
 				<SoundBoardBoard
 					loading={refresh}
 					setLoading={setRefresh}

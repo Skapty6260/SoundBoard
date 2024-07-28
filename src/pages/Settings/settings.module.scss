@@ -1,9 +1,9 @@
 .app {
-	@apply w-full h-screen flex justify-center;
+	@apply w-screen h-screen flex justify-center;
 }
 
 .dashboard {
-	@apply w-full h-screen py-6 flex flex-col;
+	@apply w-screen h-screen flex flex-col;
 	background: #000000aa;
 	backdrop-filter: blur(10px);
 	position: fixed;
@@ -14,66 +14,105 @@
 	h1 {
 		@apply font-bold text-xl ml-[5rem];
 		position: relative;
-		z-index: 1;
+		z-index: 100;
 	}
 }
 
-.settingsFilter {
+.settings {
 	@apply flex flex-col space-y-3;
 
-	ul {
+	.settingsBlock {
 		@apply flex space-x-3 mt-2 relative mx-16;
 		box-shadow: 0px 0px 10px 2px #000000b6;
 		border-radius: 15px;
 		padding: 15px;
 		z-index: 1;
 	}
+}
 
-	.filterList {
-		background: var(--neutralColor);
-		li:not(.active) {
-			transition: all 0.3s ease-in-out;
-			@apply text-[var(--textColor)] font-semibold rounded-lg cursor-pointer;
+// Dashboard::Navigation
+.filterList {
+	background: var(--neutralColor);
+	li:not(.active) {
+		transition: all 0.3s ease-in-out;
+		@apply text-[var(--textColor)] font-semibold rounded-lg cursor-pointer;
 
-			&:hover {
-				@apply bg-[var(--activeColor)] -top-1;
-			}
-		}
-
-		.active {
-			transition: all 0.3s ease-in-out;
-			@apply flex items-center justify-center;
-			color: var(--activeColor);
-			transform: scale(110%);
-			font-weight: 700;
-
-			&::after {
-				@apply bg-[var(--activeColor)];
-				content: '';
-				position: absolute;
-				bottom: 3px;
-				left: 50%;
-				border-radius: 999px;
-				transform: translateX(-50%);
-				width: 40%;
-				height: 1px;
-				z-index: -1;
-			}
+		&:hover {
+			@apply bg-[var(--activeColor)] -top-1;
 		}
 	}
 
-	.optionsList {
-		@apply px-8 text-xl font-semibold overflow-hidden grid-cols-3;
-		background: var(--semiTransparent);
-		height: 100%;
-		min-height: 55vh;
+	.active {
+		transition: all 0.3s ease-in-out;
+		@apply flex items-center justify-center;
+		color: var(--activeColor);
+		transform: scale(110%);
+		font-weight: 700;
 
-		.option {
-			width: 100%;
+		&::after {
+			@apply bg-[var(--activeColor)];
+			content: '';
+			position: absolute;
+			bottom: 3px;
+			left: 50%;
+			border-radius: 999px;
+			transform: translateX(-50%);
+			width: 40%;
+			height: 1px;
+			z-index: -1;
 		}
 	}
 }
 
+// Dashboard::Options
+.optionsList {
+	@apply text-xl font-semibold overflow-x-hidden flex flex-wrap overflow-y-scroll;
+	background: var(--semiTransparent);
+	height: 100%;
+	min-height: 55vh;
+
+	.subfield {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 15px;
+		padding: 15px;
+		width: 100%;
+		height: 80px;
+		color: var(--textColor);
+
+		&::after {
+			content: '';
+			@apply animate-pulse;
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			background: var(--textColor);
+			border-radius: 999px;
+			height: 1px;
+			width: 92%;
+		}
+
+		span {
+			background: var(--neutralColor);
+			border-radius: 15px;
+			padding: 5px 20px;
+		}
+
+		.subfieldOptionsSelector {
+			@apply flex;
+		}
+	}
+
+	.switchCheckbox {
+		@apply w-[30px] h-[30px] cursor-pointer;
+		background-color: #2196f3;
+	}
+}
+
+// Bg features
 .gradient {
 	@apply animate-pulse w-full h-full;
 
