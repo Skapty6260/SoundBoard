@@ -1,0 +1,54 @@
+.container {
+	@apply flex flex-col items-center p-8;
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	box-shadow: 0px 0px 20px 2px #000000b6;
+	width: 80%;
+	height: 70%;
+	margin-top: 50px;
+	border-radius: 45px;
+	color: var(--invTextColor);
+
+	h1 {
+		@apply font-bold text-3xl w-full;
+		text-shadow: 1px 0px 20px var(--invTextColor);
+	}
+}
+
+$colors: rgb(149, 46, 46), orange, rgb(57, 34, 8), rgb(96, 165, 96), blue,
+	rgb(47, 2, 193);
+$repeat: 10;
+
+.infoContainer {
+	@apply flex w-full h-full overflow-hidden flex-wrap my-6;
+	color: var(--textColor);
+
+	@for $i from 1 through $repeat {
+		li:nth-child(#{length($colors)}n + #{$i}) {
+			background: lighten(nth($colors, random(length($colors))), 20%);
+		}
+	}
+
+	li {
+		@apply w-[22.5%] h-[33%] mx-2 flex justify-center text-center items-center flex-col cursor-pointer;
+		font-size: 20px;
+		font-weight: 800;
+		border-radius: 20px;
+
+		button {
+			@apply flex w-full h-full flex-col items-center justify-center;
+		}
+
+		&:hover {
+			border: 2px solid #fff;
+		}
+
+		i {
+			font-size: 50px;
+		}
+
+		p {
+			margin-top: 5px;
+		}
+	}
+}

@@ -34,7 +34,7 @@ const mainWindow: BrowserWindowConstructorOptions = {
 		contextIsolation: true,
 	},
 
-	icon: path.join(`${process.env.VITE_PUBLIC}`, 'electron-vite.svg'),
+	icon: path.join(`${process.env.VITE_PUBLIC}`, 'icon.png'),
 }
 
 const authWindow: BrowserWindowConstructorOptions = {
@@ -55,6 +55,8 @@ const authWindow: BrowserWindowConstructorOptions = {
 	frame: false,
 	autoHideMenuBar: true,
 }
+
+export const trayConfig = {}
 
 export const windowsConfig = {
 	main: mainWindow,

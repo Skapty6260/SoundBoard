@@ -1,9 +1,32 @@
 .tabsListContainer {
 	@apply flex space-x-3 mt-2 relative mx-16;
-	box-shadow: 0px 0px 10px 2px #000000b6;
 	border-radius: 15px;
+	background: var(--neutralColor);
 	padding: 15px;
+	box-shadow: 0px 0px 10px 2px #000000b6;
 	z-index: 1;
+}
+
+.tabsListContainerSecondary {
+	@apply flex space-x-3 fixed -top-2.5 pt-[10px] px-10;
+	border-bottom-left-radius: 45px;
+	border-bottom-right-radius: 45px;
+	background: #00000069;
+	color: var(--invTextColor);
+	box-shadow: 0px 0px 10px 2px #000000b6;
+	z-index: 1;
+	font-weight: 700;
+}
+
+.tabsListContainerTertiary {
+	@apply flex mt-6 w-full relative justify-between text-[var(--invTextColor)] font-semibold overflow-hidden rounded-full;
+
+	li {
+		width: 100%;
+		display: flex;
+		justify-items: center;
+		cursor: pointer;
+	}
 }
 
 .defaultTabItem {
@@ -18,8 +41,6 @@
 }
 
 .tabList {
-	background: var(--neutralColor);
-
 	.active {
 		transition: all 0.3s ease-in-out;
 		@apply flex items-center justify-center;
@@ -39,5 +60,33 @@
 			height: 1px;
 			z-index: -1;
 		}
+	}
+}
+
+.tabListSecondary {
+	li {
+		opacity: 60%;
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			opacity: 100%;
+		}
+	}
+
+	.active {
+		transition: all 0.3s ease-in-out;
+		@apply flex items-center justify-center;
+		color: var(--invTextColor);
+		opacity: 100%;
+		transform: scale(110%);
+		font-weight: 700;
+	}
+}
+
+.tabListTertiary {
+	.active {
+		transition: all 0.3s ease-in-out;
+		opacity: 100;
+		background: var(--neutralColor2);
 	}
 }

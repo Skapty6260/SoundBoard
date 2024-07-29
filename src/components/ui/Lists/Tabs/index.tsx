@@ -3,8 +3,8 @@ import styles from './style.module.scss'
 interface IProps {
 	Fields: { name: string }[]
 	ActiveField: string | null
-	ListItem: React.JSXElementConstructor<{ item: any; index: number }>
-	variant?: 'primary' | 'secondary'
+	ListItem: React.JSXElementConstructor<{ item: any }>
+	variant?: 'primary' | 'secondary' | 'tertiary'
 }
 
 export const TabListComponent: React.FC<IProps> = ({
@@ -25,7 +25,7 @@ export const TabListComponent: React.FC<IProps> = ({
 								key={index}
 								className={ActiveField === item.name ? styles.active : ''}
 							>
-								<ListItem item={item} index={index} />
+								<ListItem item={item} />
 							</li>
 						)
 					})}
@@ -33,6 +33,39 @@ export const TabListComponent: React.FC<IProps> = ({
 			)
 
 		case 'secondary':
-			return <div></div>
+			return (
+				<ul
+					className={`${styles.tabsListContainerSecondary} ${styles.tabListSecondary}`}
+				>
+					{Fields.map((item, index) => {
+						return (
+							<li
+								key={index}
+								className={ActiveField === item.name ? styles.active : ''}
+							>
+								<ListItem item={item} />
+							</li>
+						)
+					})}
+				</ul>
+			)
+
+		case 'tertiary':
+			return (
+				<ul
+					className={`${styles.tabsListContainerTertiary} ${styles.tabListTertiary}`}
+				>
+					{Fields.map((item, index) => {
+						return (
+							<li
+								key={index}
+								className={ActiveField === item.name ? styles.active : ''}
+							>
+								<ListItem item={item} />
+							</li>
+						)
+					})}
+				</ul>
+			)
 	}
 }

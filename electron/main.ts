@@ -1,5 +1,5 @@
-import { app, BrowserWindow } from 'electron'
-import { windowsConfig } from './config/windows'
+import { app, BrowserWindow, Tray } from 'electron'
+import { windowsConfig, trayConfig } from './config/windows'
 import { initStore } from './events'
 import { WindowManager } from './services'
 
@@ -21,6 +21,7 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 process.env.STORAGE_DIR = path.join(process.env.APP_ROOT, 'storage')
 
 let win: BrowserWindow | null
+let tray: Tray | null
 
 async function createWindow() {
 	await import('./events')
@@ -29,6 +30,8 @@ async function createWindow() {
 	win = new BrowserWindow({
 		...windowsConfig.main,
 	})
+
+	tray = new Tray(path.join(process.env.VITE_PUBLIC + '/icon.png'))
 
 	WindowManager.mainWindow = win
 
