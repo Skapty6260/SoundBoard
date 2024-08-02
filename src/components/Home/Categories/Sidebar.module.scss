@@ -44,9 +44,9 @@
 .resizeContainer {
 	content: '';
 	cursor: e-resize;
-	@apply w-[3px] h-full bg-transparent absolute -right-0 top-0;
+	@apply w-[5px] h-full bg-transparent absolute -right-0 top-0;
 	&:hover {
-		background: red;
+		background: var(--semiTransparent2);
 	}
 }
 

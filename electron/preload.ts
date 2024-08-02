@@ -2,6 +2,7 @@ import { contextBridge } from 'electron'
 
 import { ipcRenderer } from 'electron'
 import { STORE_KEYS } from './events/store'
+import { TModalNames } from './config/modals'
 
 const IPCrenderer = {
 	on(...args: Parameters<typeof ipcRenderer.on>) {
@@ -30,7 +31,11 @@ const player = {
 }
 
 const _window = {
-	quit: () => ipcRenderer.send('window/quit'),
+	quit: (behavior: 'quit' | 'hide') =>
+		ipcRenderer.invoke('window/quit', behavior),
+	openModal: (modal: TModalNames) =>
+		ipcRenderer.invoke('window/openModal', modal),
+	openAuthWindow: () => ipcRenderer.invoke('openAuthWindow'),
 }
 
 const store = {

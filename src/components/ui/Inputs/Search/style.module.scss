@@ -1,0 +1,23 @@
+.searchInput {
+	@apply py-2 pr-8 pl-10;
+	outline: none;
+	color: var(--textColor);
+	border-radius: 45px;
+	font-weight: 600;
+}
+
+.search {
+	color: var(--textColor);
+	@apply flex items-center relative;
+
+	i {
+		@apply w-[20px] h-[20px] absolute left-4 top-3;
+
+		transition: all 0.3s ease-in-out;
+		opacity: 50%;
+	}
+
+	&:hover i {
+		@apply scale-110 opacity-100 rotate-[360deg];
+	}
+}

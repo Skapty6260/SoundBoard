@@ -9,3 +9,5 @@ export const InitialUserSettings: IUserSettings = {
 		close_behavior: 'hide',
 	},
 }
+
+export type TUserSettings_KEYS = keyof IUserSettings

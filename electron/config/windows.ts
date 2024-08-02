@@ -29,7 +29,8 @@ const mainWindow: BrowserWindowConstructorOptions = {
 	webPreferences: {
 		preload: path.join(__dirname, 'preload.mjs'),
 		sandbox: false,
-		allowRunningInsecureContent: false,
+		// allowRunningInsecureContent: false,
+		webSecurity: false,
 		nodeIntegration: true,
 		contextIsolation: true,
 	},

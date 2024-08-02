@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
-import { FaCircleUser, FaBarsStaggered } from 'react-icons/fa6'
+import { FaCircleUser } from 'react-icons/fa6'
 import { IoSettingsOutline } from 'react-icons/io5'
 
 import styles from './Navigation.module.scss'

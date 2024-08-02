@@ -1,1 +1,1 @@
-export type TSoundboardView = 'Cols' | 'Rows' | 'List' | 'Cells'
+export type TSoundboardView = 'Cols' | 'Grid' | 'List' | 'Cells'

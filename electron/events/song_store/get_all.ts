@@ -12,10 +12,11 @@ async function getAllSongs(_: IpcMainInvokeEvent) {
 		await readdirSync(storePath).forEach(
 			file => {
 				songs.push({
-					name: file.replace('.mp3', ''),
+					name: file,
 					length: 0,
-					author: 'unknown',
+					ext: file.endsWith('.mp3') ? 'mp3' : 'ogg',
 					shortcut: 'none',
+					author: 'unknown',
 				})
 			},
 			{ withFileTypes: false }

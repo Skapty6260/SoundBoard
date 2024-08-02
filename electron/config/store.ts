@@ -1,6 +1,5 @@
-import { ICategory } from '@shared/types/SoundTypes'
+import { ICategory, ISound } from '@shared/types/SoundTypes'
 import { Schema } from 'electron-store'
-import { IUserSettings } from './user_settings'
 
 export interface IStorageSchema {
 	// App Config
@@ -11,18 +10,18 @@ export interface IStorageSchema {
 	view_sidebar: boolean
 
 	// User Settings
-	settings: IUserSettings
+	app_closeBehavior: 'quit' | 'hide'
 
 	// Data
 	userAccounts: string[]
 	soundCategories: ICategory[]
-	sounds: string[]
+	sounds: ISound[]
 }
 
 export const storeSchema: Schema<IStorageSchema> = {
-	settings: {
-		type: 'object',
-		default: {},
+	app_closeBehavior: {
+		type: 'string',
+		default: 'hide',
 	},
 	view_soundboard: {
 		type: 'string',

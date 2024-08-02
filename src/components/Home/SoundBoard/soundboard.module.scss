@@ -1,123 +1,59 @@
 .container {
-	@apply mx-20 my-10 space-y-2 w-[90%] h-[90%] space-x-3 items-center flex;
+	@apply mb-[5.3rem] w-[80%] h-[80%] flex overflow-hidden;
 	transition: all 0.5s ease-in-out;
-
-	nav {
-		@apply flex justify-between w-full items-center;
-	}
 
 	.board {
-		@apply w-full h-full rounded-3xl;
+		@apply w-full h-full rounded-3xl ml-20;
+		overflow-y: scroll;
 		background: var(--semiTransparent);
-	}
-}
 
-.ViewControls {
-	@apply flex flex-col justify-center space-x-5 overflow-y-scroll py-4 w-full h-full text-[var(--textColor)];
+		header {
+			@apply flex justify-between items-center px-6;
 
-	.active {
-		height: 60%;
-		width: 100%;
-		overflow: hidden;
-
-		background: var(--activeColor);
-		transform: scale(1.05);
-		border: 1px solid var(--semiTransparent);
-		border-radius: 15px;
-		position: relative;
-
-		button {
-			font-size: 160%;
-			@apply w-full h-[100%] flex items-center justify-center;
-
-			transition: all 0.15s ease-in-out;
-			&:active {
-				transform: rotate(-30deg) scale(0.8);
+			button i {
+				cursor: pointer;
+				font-size: xx-large;
 			}
-		}
-	}
 
-	li:not(.controls_refresh, .active, .refreshActive) {
-		height: 50%;
-		width: 100%;
-		cursor: pointer;
-		overflow: hidden;
-
-		background: rgba(93, 93, 93, 0.211);
-		border-radius: 15px;
-		position: relative;
-
-		button {
-			font-size: 160%;
-			@apply w-full h-[100%] flex items-center justify-center;
-
-			transition: all 0.15s ease-in-out;
-			&:active {
-				transform: rotate(-30deg) scale(0.8);
-			}
-		}
-
-		&:hover {
-			background: rgba(93, 93, 93, 0.451);
-		}
-	}
-}
-
-.ViewControls_refresh {
-	li:not(.refreshActive) {
-		@apply animate-pulse;
-		background: rgba(93, 93, 93, 0.211);
-
-		button:disabled {
-			cursor: not-allowed;
-
-			&:active {
-				transform: none;
+			h1 {
+				padding-left: 1rem;
 			}
 		}
 	}
 }
 
-.controls_refresh {
-	flex: 1 0 18%;
-	height: 80%;
-	cursor: pointer;
-	overflow: hidden;
-	border-radius: 15px;
-	background: var(--neutralColor2);
+.sidebar {
+	@apply h-[300px] w-[80px] absolute left-0 top-[0];
+	box-shadow: 0px 0px 10px 5px hsla(0, 0%, 0%, 0.525);
+	background: var(--semiTransparent);
 
-	transition: all 0.5s ease-in-out;
+	ul {
+		@apply flex flex-col overflow-hidden items-center py-8 h-screen bg-[#00000086];
+		font-size: 30px;
+		font-weight: 900;
+		color: var(--invTextColor);
 
-	font-size: 280%;
+		li {
+			@apply w-full h-[50px] py-8 flex justify-center items-center;
+			cursor: pointer;
+			transition: all 0.2s ease-in-out;
+			opacity: 60%;
 
-	button {
-		@apply w-full h-full flex items-center justify-center;
-	}
+			button {
+				@apply w-full h-full flex items-center justify-center cursor-pointer;
+			}
 
-	&:active {
-		border-radius: 9999px;
-		transform: scale(0.7) rotate(-20deg);
-	}
-
-	&:hover {
-		background: var(--activeColor);
+			&:hover {
+				color: var(--activeColor);
+			}
+		}
 	}
 }
 
 .refreshActive {
-	@apply flex items-center justify-center py-4 px-5;
-	flex: 1 100% 10%;
-	cursor: pointer;
-	overflow: hidden;
-	border-radius: 9999px;
-	transform: scale(0.7) rotate(-20deg);
-	background: var(--neutralColor2);
+	@apply animate-spin text-[var(--activeColor)];
+}
 
-	font-size: 280%;
-
-	transition: all 0.5s ease-in-out;
-
-	button {
-		@apply animate-spin;
-	}
+.active {
+	@apply bg-[var(--activeColor)];
 }

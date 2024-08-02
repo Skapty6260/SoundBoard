@@ -18,7 +18,7 @@ export interface IFieldOptions {
 }
 
 export interface IFieldOptionSettings {
-	optionValueType: 'select' | 'switch' | 'input' | 'choice'
+	optionValueType: 'select' | 'switch' | 'input' | 'choice' | 'selectOne'
 	optionInitialValue: any
 	optionValues: Array<any>
 }
@@ -27,32 +27,37 @@ const Settings = () => {
 	const [activeField, setActiveField] = useState<string | null>(null)
 
 	const Fields: ISettingsField[] = [
+		//  View
 		{
 			name: 'View',
 			fieldOptions: [
 				{
-					optionName: 'Columns',
+					optionName: 'Select Theme',
 					optionSettings: {
-						optionValues: ['true', 'false'],
-						optionInitialValue: 'Cols',
-						optionValueType: 'switch',
+						optionValues: ['Dark', 'Light'],
+						optionInitialValue: ['Dark'],
+						optionValueType: 'selectOne',
 					},
 				},
 			],
 		},
+
+		// Application
 		{
 			name: 'Application',
 			fieldOptions: [
 				{
-					optionName: 'Columns',
+					optionName: 'App close behavior',
 					optionSettings: {
-						optionValues: ['true', 'false'],
-						optionInitialValue: false,
-						optionValueType: 'switch',
+						optionValues: ['hide on tray', 'quit app'],
+						optionInitialValue: 'hide on tray',
+						optionValueType: 'choice',
 					},
 				},
 			],
 		},
+
+		// Accounts
 		{
 			name: 'Accounts',
 			fieldOptions: [
@@ -108,11 +113,8 @@ const Settings = () => {
 						<TabListComponent
 							Fields={Fields}
 							ActiveField={activeField}
-							ListItem={({ item, index }) => (
-								<li
-									className={activeField == item.name ? styles.active : ''}
-									key={index}
-								>
+							ListItem={({ item }) => (
+								<li className={activeField == item.name ? styles.active : ''}>
 									<button
 										onClick={() => setActiveField(item.name)}
 										className='w-full h-full px-5 py-2'

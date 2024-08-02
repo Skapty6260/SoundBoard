@@ -1,14 +1,18 @@
+import { app } from 'electron'
 import { registerEvent } from '../registerEvent'
 
-import path from 'path'
-import { app } from 'electron'
+import path from 'node:path'
+import { readFileSync } from 'fs-extra'
 
 const playOutput = async (
 	_event: Electron.IpcMainInvokeEvent,
 	sound_name: string
 ) => {
-	let storePath = await path.join(app.getPath('appData'), 'soundboard/songs')
-	const sound_path = path.join(`${storePath}/${sound_name}.mp3`)
+	const sound_path = path.join(
+		app.getPath('appData'),
+		'soundboard/songs',
+		`${sound_name}`
+	)
 
 	return sound_path
 }

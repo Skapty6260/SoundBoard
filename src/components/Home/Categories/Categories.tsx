@@ -4,6 +4,7 @@ import { ISound, ICategory } from '@shared/types/SoundTypes'
 import { motion } from 'framer-motion'
 
 import { IoMdArrowDropup } from 'react-icons/io'
+import { SidebarLayout } from '@/components/Layout/Sidebar'
 
 const CategoryOpened = memo(({ data }: { data: ISound[] }) => {
 	return (
@@ -86,10 +87,13 @@ export const Categories: React.FC<{ searchQuery: string }> = ({
 		window.api.store.setValue('soundCategories', [...temp])
 	}
 
-	if (searchQuery.length !== 0)
-		return (
-			<ul className={styles.categoriesContainer}>
-				{data.map((item: ICategory, key: any) => {
+	return (
+		<SidebarLayout<ICategory>
+			items={data}
+			ListItem={(props: { item: ICategory; key: number }) => {
+				const { item, key } = props
+
+				if (searchQuery.length !== 0) {
 					if (item.title.toLowerCase().includes(searchQuery.toLowerCase()))
 						return (
 							<li key={key} className={styles.category}>
@@ -105,13 +109,7 @@ export const Categories: React.FC<{ searchQuery: string }> = ({
 								{item.opened ? <CategoryOpened data={item.sounds} /> : null}
 							</li>
 						)
-				})}
-			</ul>
-		)
-	return (
-		<>
-			<ul className={styles.categoriesContainer}>
-				{data.map((item: ICategory, key: any) => {
+				} else
 					return (
 						<li key={key} className={styles.category}>
 							<button onClick={() => handleClick(item)}>
@@ -126,8 +124,10 @@ export const Categories: React.FC<{ searchQuery: string }> = ({
 							{item.opened ? <CategoryOpened data={item.sounds} /> : null}
 						</li>
 					)
-				})}
-			</ul>
-		</>
+			}}
+			customStyles={{
+				ul: { type: 'class', styles: styles.categoriesContainer },
+			}}
+		/>
 	)
 }

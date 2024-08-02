@@ -85,5 +85,16 @@ const SubfieldAppearance: React.FC<{ subfield: IFieldOptionSettings }> = ({
 					<input className={styles.switchCheckbox} type='checkbox' />
 				</div>
 			)
+
+		case 'selectOne':
+			return (
+				<button className='bg-[var(--neutralColor)] flex flex-wrap items-center space-x-1 py-1 px-3 rounded-[15px] text-[var(--textColor)] hover:opacity-85 duration-300'>
+					<i className='pr-2 opacity-60'>
+						<CiBoxList />
+					</i>
+
+					<p className='flex-[1 0 50%]'>{initial}</p>
+				</button>
+			)
 	}
 }

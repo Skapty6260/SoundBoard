@@ -1,5 +1,5 @@
-import { app, BrowserWindow, Tray } from 'electron'
-import { windowsConfig, trayConfig } from './config/windows'
+import { app, BrowserWindow, Menu, Tray } from 'electron'
+import { windowsConfig } from './config/windows'
 import { initStore } from './events'
 import { WindowManager } from './services'
 
@@ -32,6 +32,25 @@ async function createWindow() {
 	})
 
 	tray = new Tray(path.join(process.env.VITE_PUBLIC + '/icon.png'))
+	tray.setToolTip('Soundboard')
+
+	const trayContextMenu = Menu.buildFromTemplate([
+		{ label: 'Open', type: 'normal', click: () => win?.show() },
+		{
+			label: 'Exit',
+			type: 'normal',
+			click: () => {
+				console.log('Menu/Quit was clicked')
+				app.quit()
+			},
+		},
+	])
+
+	tray.setContextMenu(trayContextMenu)
+
+	tray.on('click', () => {
+		tray?.popUpContextMenu()
+	})
 
 	WindowManager.mainWindow = win
 

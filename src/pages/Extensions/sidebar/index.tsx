@@ -8,60 +8,72 @@ import { SiReadthedocs } from 'react-icons/si'
 import { TbGridDots } from 'react-icons/tb'
 import { GrView } from 'react-icons/gr'
 import { FaGithubAlt } from 'react-icons/fa'
+import { SidebarLayout } from '@/components/Layout/Sidebar'
+
+interface ISidebarData {
+	icon: React.ReactNode
+	url?: string
+	button?: boolean
+}
+
+const sidebarData = [
+	{
+		url: '/',
+		icon: <MdOutlineKeyboardBackspace />,
+	},
+
+	{
+		button: true,
+		icon: <TbGridDots />,
+	},
+
+	{
+		url: '/developer-profile',
+		icon: <VscTools />,
+	},
+
+	{
+		url: '/theme-customization-preview',
+		icon: <GrView />,
+	},
+
+	{
+		url: '/main-github-repos',
+		icon: <FaGithubAlt />,
+	},
+
+	{
+		url: '/contact-app-developer',
+		icon: <AiOutlineMessage />,
+	},
+
+	{
+		url: '/documentation',
+		icon: <SiReadthedocs />,
+	},
+]
 
 export const ExtensionsSidebar = () => {
 	return (
-		<nav className={styles.sidebar}>
-			<ul>
-				{/* Back to homepage */}
-				<li>
-					<Link to='/'>
-						<MdOutlineKeyboardBackspace />
-					</Link>
-				</li>
-
-				{/* Separator and extend-sidebar */}
-				<li className={styles.separator}>
-					<button className='rotate-90'>
-						<TbGridDots />
-					</button>
-				</li>
-
-				{/* Developer Profile */}
-				<li>
-					<Link to='/developer-profile'>
-						<VscTools />
-					</Link>
-				</li>
-
-				{/* Theming preview */}
-				<li>
-					<Link to='/theme-customization-preview'>
-						<GrView />
-					</Link>
-				</li>
-
-				{/* Files */}
-				<li>
-					<Link to='/github-repos'>
-						<FaGithubAlt />
-					</Link>
-				</li>
-
-				{/* Contact Main Developer */}
-				<li>
-					<Link to='/ask-a-question'>
-						<AiOutlineMessage />
-					</Link>
-				</li>
-
-				{/* Documentation */}
-				<li>
-					<Link to='/documentation'>
-						<SiReadthedocs />
-					</Link>
-				</li>
-			</ul>
-		</nav>
+		<SidebarLayout<ISidebarData>
+			items={sidebarData}
+			ListItem={({ item, key }) => {
+				return (
+					<li key={key}>
+						{item.button ? (
+							<button>{item.icon}</button>
+						) : (
+							<Link to={item.url}>{item.icon}</Link>
+						)}
+					</li>
+				)
+			}}
+			customStyles={{
+				container: {
+					type: 'class',
+					styles: styles.sidebar,
+				},
+			}}
+		/>
 	)
 }

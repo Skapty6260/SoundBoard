@@ -1,38 +1,79 @@
 import { ISound } from '@shared/types/SoundTypes'
 import { TSoundboardView } from '@shared/types/app'
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
+import {
+	Dispatch,
+	SetStateAction,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react'
 
 import { FaPlay } from 'react-icons/fa' // , FaPause
 
 interface IProps {
 	loading: boolean
 	setLoading: Dispatch<SetStateAction<boolean>>
+	searchQuery: string
 	variant: TSoundboardView
 }
 
 export const SoundBoardBoard = (props: IProps) => {
-	const [currentSound, setCurrentSound] = useState<{
-		playing: boolean
-		audio: HTMLAudioElement | null
-	}>({ playing: false, audio: null }) // Path
 	const [sounds, setSounds] = useState<ISound[]>([])
+	const [currentSound, setCurrentSound] = useState<string>('')
 	const [error, setError] = useState(false)
 
+	const audioRef = useRef<any>(null)
+
 	const handlePlay = (sound: ISound) => {
-		window.api.player.play_toOutput(sound.name).then((res: any) => {
-			console.log(res)
-			setCurrentSound({
-				audio: new Audio(res),
-				playing: true,
-			})
+		navigator.mediaDevices.enumerateDevices().then(devices => {
+			console.log(devices)
+
+			let context = new window.AudioContext()
+			let audioElement = new Audio()
+
+			async function playAudio() {
+				// const audioDevices = await devices.filter(device => {
+				// 	return device.kind === 'audioinput' && device.label === 'GM300 Pro' //output to hear in headphones
+				// })
+				const audioDevice = devices[0]
+				// console.log(audioDevice)
+				await audioElement.setSinkId(audioDevice.deviceId)
+
+				let oscillator = context.createOscillator()
+				let mediaStreamDestination = context.createMediaStreamDestination()
+
+				oscillator.connect(mediaStreamDestination)
+				audioElement.srcObject = mediaStreamDestination.stream
+
+				oscillator.start()
+				audioElement.play()
+				await new Promise(r => setTimeout(r, 2000))
+				oscillator.stop()
+			}
+
+			function fetchAndPlay() {
+				window.api.player
+					.play_toOutput(sound.name)
+					.then(async (path: any) => {
+						setCurrentSound(`file://${path}.${sound.ext}`)
+						// const data = await fetch(`file://${path}`)
+						// const buffer = await data.arrayBuffer()
+						// console.log(buffer)
+
+						// context.decodeAudioData(buffer, decoded => playAudio())
+					})
+					.catch(e => console.error(e))
+			}
+			fetchAndPlay()
 		})
 	}
 
 	useEffect(() => {
-		if (currentSound.playing == false) {
-			currentSound.audio?.play()
-		} else {
-			currentSound.audio?.pause()
+		if (audioRef.current) {
+			audioRef.current.pause()
+			audioRef.current.load()
+			audioRef.current.play()
 		}
 	}, [currentSound])
 
@@ -46,12 +87,23 @@ export const SoundBoardBoard = (props: IProps) => {
 				.setValue(
 					'sounds',
 					value.map((item: any) => {
-						return {
-							name: item.name.replace('.mp3', ''),
-							length: 0,
-							shortcut: item.shortcut,
-							author: item.author,
-						}
+						if (item.name.endsWith('.ogg'))
+							return {
+								name: item.name.replace('.ogg', ''),
+								length: 0,
+								ext: 'ogg',
+								shortcut: item.shortcut,
+								author: item.author,
+							}
+						// (item.name.endsWith('.mp3'))
+						else
+							return {
+								name: item.name.replace('.mp3', ''),
+								length: 0,
+								ext: 'mp3',
+								shortcut: item.shortcut,
+								author: item.author,
+							}
 					})
 				)
 				.then((val: [string, ISound[]]) => {
@@ -101,14 +153,17 @@ export const SoundBoardBoard = (props: IProps) => {
 
 	return (
 		<ul className={`px-8 py-6 soundboard-${props.variant}`}>
-			{/* <audio ref={audioRef} src={currentSound.path} controls={false} /> */}
 			<li className='static-board'>
 				<p>Number</p>
 				<p>Title</p>
 				<p className='static-board_shortcut'>Shortcut</p>
 				<p>Length</p>
 			</li>
-
+			<li>
+				<audio controls ref={audioRef}>
+					<source src={currentSound} type='audio/mpeg' />
+				</audio>
+			</li>
 			{sounds?.map((item: ISound, key: number) => {
 				return (
 					<li key={key}>
