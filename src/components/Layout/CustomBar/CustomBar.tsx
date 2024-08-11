@@ -3,12 +3,15 @@ import { IoIosCloseCircle } from 'react-icons/io'
 export const CustomBar = ({ bg }: { bg?: boolean }) => {
 	const handleClose = (e: any) => {
 		e.preventDefault()
-		window.api.store
-			.getValue('app_closeBehavior')
+		window.api.settings
+			.getSettingsField('settings_app_closeBehavior')
 			.then((value: 'quit' | 'hide' | null) => {
-				if (value == null) {
-					window.api.window.quit('hide')
-				} else window.api.window.quit(value)
+				const spliced = value?.split(' ')
+
+				if (spliced == undefined && spliced == null)
+					return window.api.window.quit('hide')
+				// @ts-ignore
+				window.api.window.quit(spliced[0])
 			})
 	}
 

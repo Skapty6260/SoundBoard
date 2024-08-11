@@ -66,7 +66,7 @@ const Settings: React.FC = memo(() => {
 	]
 
 	const styles = {
-		ul: 'flex flex-col space-y-1 relative overflow-hidden text-[var(--textColor)]',
+		ul: 'flex z-[100] flex-col space-y-1 relative overflow-hidden text-[var(--textColor)]',
 		li: 'w-full overflow-hidden relative',
 
 		motionLi: {

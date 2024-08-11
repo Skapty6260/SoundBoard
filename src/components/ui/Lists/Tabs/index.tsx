@@ -1,10 +1,10 @@
 import styles from './style.module.scss'
 
 interface IProps {
-	Fields: { name: string }[]
+	Fields: { name: string }[] | any
 	ActiveField: string | null
-	ListItem: React.JSXElementConstructor<{ item: any }>
-	variant?: 'primary' | 'secondary' | 'tertiary'
+	ListItem: React.JSXElementConstructor<{ item: any; index?: number }>
+	variant?: 'primary' | 'secondary' | 'tertiary' | 'primary-hashmap'
 }
 
 export const TabListComponent: React.FC<IProps> = ({
@@ -19,7 +19,7 @@ export const TabListComponent: React.FC<IProps> = ({
 				<ul
 					className={`${styles.tabList} ${styles.tabsListContainer} ${styles.defaultTabItem}`}
 				>
-					{Fields.map((item, index) => {
+					{Fields.map((item: any, index: number) => {
 						return (
 							<li
 								key={index}
@@ -32,12 +32,23 @@ export const TabListComponent: React.FC<IProps> = ({
 				</ul>
 			)
 
+		case 'primary-hashmap':
+			return (
+				<ul
+					className={`${styles.tabList} ${styles.tabsListContainer} ${styles.defaultTabItem}`}
+				>
+					{Object.keys(Fields).map((item: any, index: number) => {
+						return <ListItem item={Fields[item]} index={index} />
+					})}
+				</ul>
+			)
+
 		case 'secondary':
 			return (
 				<ul
 					className={`${styles.tabsListContainerSecondary} ${styles.tabListSecondary}`}
 				>
-					{Fields.map((item, index) => {
+					{Fields.map((item: any, index: number) => {
 						return (
 							<li
 								key={index}
@@ -55,7 +66,7 @@ export const TabListComponent: React.FC<IProps> = ({
 				<ul
 					className={`${styles.tabsListContainerTertiary} ${styles.tabListTertiary}`}
 				>
-					{Fields.map((item, index) => {
+					{Fields.map((item: any, index: number) => {
 						return (
 							<li
 								key={index}

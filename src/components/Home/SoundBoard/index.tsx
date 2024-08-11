@@ -11,7 +11,7 @@ import { SearchInput } from '@/components/ui/Inputs/Search'
 
 const SoundBoard = () => {
 	const [refresh, setRefresh] = useState(false)
-	const { soundboardView, toggleSoundboardView } = useViewContext()
+	const { soundboardView, toggleSoundboardView, sidebar } = useViewContext()
 	const [iconHovered, setIconHovered] = useState<{
 		status: boolean
 		icon: string
@@ -25,20 +25,26 @@ const SoundBoard = () => {
 	}, [])
 
 	return (
-		<div className='w-full relative h-screen flex justify-center items-center'>
+		<div className='w-full relative h-screen z-[1] flex justify-center items-center'>
 			<motion.section
 				animate={{ opacity: 1 }}
 				initial={{ opacity: 0 }}
-				transition={{ duration: 1, delay: 0.5 }}
+				transition={{ duration: 1, delay: 0.8 }}
 				className={styles.container}
 			>
-				<SoundBoardControls
-					refresh={refresh}
-					setRefresh={setRefresh}
-					{...{ soundboardView, toggleSoundboardView }}
-				/>
+				{!sidebar.status && (
+					<SoundBoardControls
+						refresh={refresh}
+						setRefresh={setRefresh}
+						{...{ soundboardView, toggleSoundboardView }}
+					/>
+				)}
 				<div className={styles.board}>
-					<header>
+					<motion.header
+						initial='hidden'
+						whileInView='visible'
+						viewport={{ once: true }}
+					>
 						<h1 className='font-semibold text-[var(--textColor)] text-4xl py-4'>
 							SoundBoard
 						</h1>
@@ -86,11 +92,12 @@ const SoundBoard = () => {
 								</i>
 							</button>
 						</div>
-					</header>
+					</motion.header>
 
 					<SoundBoardBoard
 						loading={refresh}
 						setLoading={setRefresh}
+						searchQuery={searchQuery}
 						variant={soundboardView}
 					/>
 				</div>

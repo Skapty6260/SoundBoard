@@ -10,6 +10,7 @@ import {
 } from 'react'
 
 import { FaPlay } from 'react-icons/fa' // , FaPause
+import { SoundBoardPlayer } from './player'
 
 interface IProps {
 	loading: boolean
@@ -29,28 +30,28 @@ export const SoundBoardBoard = (props: IProps) => {
 		navigator.mediaDevices.enumerateDevices().then(devices => {
 			console.log(devices)
 
-			let context = new window.AudioContext()
-			let audioElement = new Audio()
+			// let context = new window.AudioContext()
+			// let audioElement = new Audio()
 
-			async function playAudio() {
-				// const audioDevices = await devices.filter(device => {
-				// 	return device.kind === 'audioinput' && device.label === 'GM300 Pro' //output to hear in headphones
-				// })
-				const audioDevice = devices[0]
-				// console.log(audioDevice)
-				await audioElement.setSinkId(audioDevice.deviceId)
+			// async function playAudio() {
+			// 	// const audioDevices = await devices.filter(device => {
+			// 	// 	return device.kind === 'audioinput' && device.label === 'GM300 Pro' //output to hear in headphones
+			// 	// })
+			// 	const audioDevice = devices[0]
+			// 	// console.log(audioDevice)
+			// 	await audioElement.setSinkId(audioDevice.deviceId)
 
-				let oscillator = context.createOscillator()
-				let mediaStreamDestination = context.createMediaStreamDestination()
+			// 	let oscillator = context.createOscillator()
+			// 	let mediaStreamDestination = context.createMediaStreamDestination()
 
-				oscillator.connect(mediaStreamDestination)
-				audioElement.srcObject = mediaStreamDestination.stream
+			// 	oscillator.connect(mediaStreamDestination)
+			// 	audioElement.srcObject = mediaStreamDestination.stream
 
-				oscillator.start()
-				audioElement.play()
-				await new Promise(r => setTimeout(r, 2000))
-				oscillator.stop()
-			}
+			// 	oscillator.start()
+			// 	audioElement.play()
+			// 	await new Promise(r => setTimeout(r, 2000))
+			// 	oscillator.stop()
+			// }
 
 			function fetchAndPlay() {
 				window.api.player
@@ -152,37 +153,60 @@ export const SoundBoardBoard = (props: IProps) => {
 		)
 
 	return (
-		<ul className={`px-8 py-6 soundboard-${props.variant}`}>
+		<div className={`relative w-full`}>
 			<li className='static-board'>
-				<p>Number</p>
-				<p>Title</p>
+				<p className='ml-4'># | Title</p>
 				<p className='static-board_shortcut'>Shortcut</p>
 				<p>Length</p>
 			</li>
-			<li>
-				<audio controls ref={audioRef}>
+			<ul className={`h-[100%] mb-4 soundboard-${props.variant}`}>
+				{sounds?.map((item: ISound, key: number) => {
+					if (props.searchQuery?.length > 0) {
+						if (item.name.includes(props.searchQuery)) {
+							return (
+								<li className='px-6' key={key}>
+									<button onClick={() => handlePlay(item)}>
+										<p className='soundboard_sound_number'>{key + 1}</p>
+										<p className='soundboard_sound_title'>{item.name}</p>
+
+										<p className='soundboard_sound_shortcut'>
+											{item.shortcut ? item.shortcut : '+'}
+										</p>
+										<p className='soundboard_sound_length'>{item.length}</p>
+
+										<i>
+											<FaPlay />
+										</i>
+									</button>
+								</li>
+							)
+						}
+					} else
+						return (
+							<li className='px-6' key={key}>
+								<button onClick={() => handlePlay(item)}>
+									<p className='soundboard_sound_number'>{key + 1}</p>
+									<p className='soundboard_sound_title'>{item.name}</p>
+
+									<p className='soundboard_sound_shortcut'>
+										{item.shortcut ? item.shortcut : '+'}
+									</p>
+									<p className='soundboard_sound_length'>{item.length}</p>
+
+									<i>
+										<FaPlay />
+									</i>
+								</button>
+							</li>
+						)
+				})}
+			</ul>
+			<div className='sticky bottom-0 w-full soundboard-player'>
+				<audio ref={audioRef}>
 					<source src={currentSound} type='audio/mpeg' />
 				</audio>
-			</li>
-			{sounds?.map((item: ISound, key: number) => {
-				return (
-					<li key={key}>
-						<button onClick={() => handlePlay(item)}>
-							<p className='soundboard_sound_number'>{key + 1}</p>
-							<p className='soundboard_sound_title'>{item.name}</p>
-
-							<p className='soundboard_sound_shortcut'>
-								{item.shortcut ? item.shortcut : '+'}
-							</p>
-							<p className='soundboard_sound_length'>{item.length}</p>
-
-							<i>
-								<FaPlay />
-							</i>
-						</button>
-					</li>
-				)
-			})}
-		</ul>
+				<SoundBoardPlayer audioRef={audioRef} />
+			</div>
+		</div>
 	)
 }

@@ -73,15 +73,24 @@ body.light {
 .soundboard-Cells {
 }
 
+.static-board {
+	@apply flex justify-between font-semibold text-gray-500 px-6;
+}
+
 .soundboard-List {
+	position: relative;
 	@apply flex flex-col space-y-3;
 
-	.static-board {
-		@apply flex justify-between font-semibold text-gray-500;
-	}
+	button:not(.soundboard-player button) {
+		@apply w-full h-[40px] relative flex items-center justify-between;
 
-	button {
-		@apply w-full h-[40px] flex justify-between items-center;
+		.soundboard_sound_title {
+			@apply absolute left-12;
+		}
+
+		.soundboard_sound_shortcut {
+			@apply absolute right-[13.75rem];
+		}
 
 		cursor: pointer;
 		font-weight: 600;

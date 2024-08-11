@@ -18,8 +18,6 @@ export const SidebarLayout: <T>({
 	ListItem,
 	customStyles,
 }: IProps<T>) => React.ReactElement = ({ items, ListItem, customStyles }) => {
-	console.log(customStyles?.container)
-
 	return (
 		<nav
 			className={`h-screen overflow-y-scroll ${

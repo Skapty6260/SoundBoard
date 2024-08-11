@@ -1,10 +1,11 @@
-import { app, BrowserWindow, Menu, Tray } from 'electron'
+import { app, BrowserWindow, Menu, MenuItem, Tray } from 'electron'
 import { windowsConfig } from './config/windows'
 import { initStore } from './events'
 import { WindowManager } from './services'
 
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { initSettingsStore } from './events/store/settings'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 process.env.APP_ROOT = path.join(__dirname, '..')
@@ -26,6 +27,7 @@ let tray: Tray | null
 async function createWindow() {
 	await import('./events')
 	await initStore()
+	await initSettingsStore()
 
 	win = new BrowserWindow({
 		...windowsConfig.main,
@@ -76,6 +78,18 @@ app.on('window-all-closed', () => {
 app.commandLine.appendSwitch('use-gl', 'desktop')
 
 app.whenReady().then(async () => {
+	const ctxMenu = new Menu()
+	ctxMenu.append(
+		new MenuItem({
+			label: 'Edit category',
+		})
+	)
+
+	win?.webContents.on('context-menu', function (_e, params) {
+		// @ts-ignore;
+		ctxMenu.popup({ window: win, x: params.x, y: params.y })
+	})
+
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) {
 			createWindow()

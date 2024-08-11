@@ -1,4 +1,4 @@
-import { windowsConfig } from '@e/config/windows'
+import { windowsConfig } from '../config/windows'
 import { IElectronModal } from '../config/modals'
 import { BrowserWindow } from 'electron'
 

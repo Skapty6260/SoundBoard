@@ -2,100 +2,60 @@ import styles from './settings.module.scss'
 import { motion } from 'framer-motion'
 
 import { RootLayout } from '../layout'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SettingsOptionsList } from './dashboard/options'
 import { TabListComponent } from '@/components/ui'
-
-export interface ISettingsField {
-	name: string
-	fieldOptions: IFieldOptions[]
-}
-
-export interface IFieldOptions {
-	optionName: string
-
-	optionSettings: IFieldOptionSettings
-}
-
-export interface IFieldOptionSettings {
-	optionValueType: 'select' | 'switch' | 'input' | 'choice' | 'selectOne'
-	optionInitialValue: any
-	optionValues: Array<any>
-}
+import { IFieldOptions, ISettingsField, useSettings } from '@/hooks/useSettings'
+import { HashTable } from '@shared/types'
 
 const Settings = () => {
 	const [activeField, setActiveField] = useState<string | null>(null)
+	const [Fields, setFields] = useState<HashTable<ISettingsField>>({})
 
-	const Fields: ISettingsField[] = [
-		//  View
-		{
-			name: 'View',
-			fieldOptions: [
-				{
-					optionName: 'Select Theme',
-					optionSettings: {
-						optionValues: ['Dark', 'Light'],
-						optionInitialValue: ['Dark'],
-						optionValueType: 'selectOne',
-					},
-				},
-			],
-		},
+	const { setField, getAllFields, initialSettings } = useSettings()
 
-		// Application
-		{
-			name: 'Application',
-			fieldOptions: [
-				{
-					optionName: 'App close behavior',
-					optionSettings: {
-						optionValues: ['hide on tray', 'quit app'],
-						optionInitialValue: 'hide on tray',
-						optionValueType: 'choice',
-					},
-				},
-			],
-		},
+	useEffect(() => {
+		getAllFields().then(async (res: any) => {
+			let storeKeysArray: string[] = []
 
-		// Accounts
-		{
-			name: 'Accounts',
-			fieldOptions: [
-				{
-					optionName: 'Columns',
-					optionSettings: {
-						optionValues: ['true', 'false'],
-						optionInitialValue: 'false',
-						optionValueType: 'switch',
-					},
-				},
-			],
-		},
+			await Object.keys(res).filter((key: string) => {
+				if (key.includes('settings')) {
+					storeKeysArray.push(key.split('_', 3)[1])
+				} else console.log('not setting field', key)
+			})
 
-		// SoundBoard
-		{
-			name: 'Board',
-			fieldOptions: [
-				{
-					optionName: 'Board Overflow',
-					optionSettings: {
-						optionValues: ['Scroll', 'Pagination'],
-						optionInitialValue: 'Scroll',
-						optionValueType: 'choice',
-					},
-				},
+			await Object.keys(initialSettings).map(async (key: string) => {
+				if (!storeKeysArray.includes(key)) {
+					initialSettings[key].fieldOptions.map(
+						async (field: IFieldOptions) => {
+							await setField(
+								// @ts-ignore
+								`settings_${key}_${field.optionData}`,
+								field.optionSettings.optionInitialValue
+							)
+						}
+					)
+				}
+			})
 
-				{
-					optionName: 'Board Enabled Views',
-					optionSettings: {
-						optionInitialValue: ['Cols', 'Rows', 'Cells', 'List'],
-						optionValues: ['Cols', 'Rows', 'Cells', 'List'],
-						optionValueType: 'select',
-					},
-				},
-			],
-		},
-	]
+			const initialKeys = Object.keys(initialSettings)
+			initialKeys.map((key: string) => {
+				initialSettings[key].fieldOptions.map((field: any, index) => {
+					return (initialSettings[key].fieldOptions[index] = {
+						optionName: `${field.optionName}`,
+						optionData: `${field.optionData}`,
+						optionSettings: {
+							optionInitialValue: res[`settings_${key}_${field.optionData}`],
+							optionValues: field.optionSettings.optionValues,
+							optionValueType: field.optionSettings.optionValueType,
+						},
+					})
+				})
+			})
+
+			setFields(initialSettings)
+		})
+	}, [])
 
 	return (
 		<RootLayout customNavBar={{ settingsActive: true }}>
@@ -112,9 +72,13 @@ const Settings = () => {
 					<div className={styles.settings}>
 						<TabListComponent
 							Fields={Fields}
+							variant='primary-hashmap'
 							ActiveField={activeField}
-							ListItem={({ item }) => (
-								<li className={activeField == item.name ? styles.active : ''}>
+							ListItem={({ item, index }) => (
+								<li
+									className={`${activeField == item.name ? styles.active : ''}`}
+									key={index}
+								>
 									<button
 										onClick={() => setActiveField(item.name)}
 										className='w-full h-full px-5 py-2'

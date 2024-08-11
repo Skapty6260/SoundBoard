@@ -6,6 +6,9 @@ import {
 	FaTableCells,
 	FaTableColumns,
 } from 'react-icons/fa6'
+import { RiSettings5Fill } from 'react-icons/ri'
+import { BsFillGrid1X2Fill } from 'react-icons/bs'
+import { FaMicrophone } from 'react-icons/fa'
 import { MdOutlineRefresh } from 'react-icons/md'
 import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { TSoundboardView } from '@shared/types/app'
@@ -19,7 +22,7 @@ interface IProps {
 	toggleSoundboardView: Dispatch<SetStateAction<TSoundboardView>>
 }
 
-const SidebarData = [
+const SBViews = [
 	{
 		name: 'Rows',
 		icon: <FaTable />,
@@ -36,15 +39,29 @@ const SidebarData = [
 		name: 'Cols',
 		icon: <FaTableColumns />,
 	},
+]
+
+const SBTop = [
+	{ name: '', icon: <FaMicrophone /> },
+	{ name: '', icon: <BsFillGrid1X2Fill /> },
+	{ name: '', icon: <div />, separator: true },
+]
+
+const SBBottom = [
+	{ name: '', icon: <div />, separator: true },
 	{
 		name: 'Refresh',
 		icon: <MdOutlineRefresh />,
 	},
+	{ name: '', icon: <RiSettings5Fill /> },
 ]
+
+const SidebarData = [...SBTop, ...SBViews, ...SBBottom]
 
 interface ISidebarData {
 	icon: React.ReactNode
 	name: string
+	separator?: boolean
 }
 
 export const SoundBoardControls = (props: IProps) => {
@@ -63,7 +80,12 @@ export const SoundBoardControls = (props: IProps) => {
 			items={SidebarData}
 			ListItem={({ item, key }) => {
 				return (
-					<li key={key} className='w-full h-full'>
+					<li
+						key={key}
+						className={`w-full h-full ${
+							item.separator == true ? 'cursor-not-allowed' : ''
+						}`}
+					>
 						<button
 							onClick={
 								item.name == 'Refresh'

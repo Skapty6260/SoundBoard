@@ -3,6 +3,7 @@ import { contextBridge } from 'electron'
 import { ipcRenderer } from 'electron'
 import { STORE_KEYS } from './events/store'
 import { TModalNames } from './config/modals'
+import { SETTINGS_STORE_KEYS } from './events/store/settings'
 
 const IPCrenderer = {
 	on(...args: Parameters<typeof ipcRenderer.on>) {
@@ -44,6 +45,14 @@ const store = {
 		ipcRenderer.invoke('store/set', key, value),
 }
 
+const settings = {
+	getSettingsField: (key: SETTINGS_STORE_KEYS) =>
+		ipcRenderer.invoke('settings/get', key),
+	setSettingsField: (key: SETTINGS_STORE_KEYS, value: any) =>
+		ipcRenderer.invoke('settings/set', key, value),
+	getAllSettings: () => ipcRenderer.invoke('settings/get-all'),
+}
+
 const songStorage = {
 	openSongFolder: () => ipcRenderer.invoke('song_store/open_folder'),
 	getAllSongs: () => ipcRenderer.invoke('song_store/get_songs'),
@@ -55,6 +64,7 @@ export const API = {
 	ipcRenderer: IPCrenderer,
 	window: _window,
 	store: store,
+	settings: settings,
 	player: player,
 	songStorage: songStorage,
 }

@@ -52,6 +52,7 @@ export const Extension_ForDevelopersPage = () => {
 						<p>Dev Profile guide</p>
 					</li>
 
+					{/* 2 Row */}
 					<li>
 						<i>
 							<SiDevrant />
@@ -78,6 +79,28 @@ export const Extension_ForDevelopersPage = () => {
 							<GoCodeReview />
 						</i>
 						<p>Deploy Review</p>
+					</li>
+
+					{/* 3 Row */}
+					<li>
+						<i>
+							<GoCodeReview />
+						</i>
+						<p>Create Theme</p>
+					</li>
+
+					<li>
+						<i>
+							<GoCodeReview />
+						</i>
+						<p>Create Addon</p>
+					</li>
+
+					<li>
+						<i>
+							<GoCodeReview />
+						</i>
+						<p>Fork and Remixes</p>
 					</li>
 				</ul>
 			</section>

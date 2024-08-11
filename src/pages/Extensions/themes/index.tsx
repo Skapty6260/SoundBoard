@@ -1,10 +1,9 @@
 import { TabListComponent } from '@/components/ui'
-import styles from '../extensions.module.scss'
 
 import { BiSearchAlt } from 'react-icons/bi'
 import { useState } from 'react'
 
-export const Extension_ThemesPage = () => {
+export const Extension_ThemesPage: React.FC<{ styles: any }> = ({ styles }) => {
 	const [activeTab, setActiveTab] = useState<
 		'Browse' | 'Installed' | 'Your Themes'
 	>('Browse')

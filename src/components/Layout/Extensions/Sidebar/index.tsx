@@ -1,4 +1,3 @@
-import styles from '../extensions.module.scss'
 import { MdOutlineKeyboardBackspace } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
@@ -16,6 +15,7 @@ interface ISidebarData {
 	button?: boolean
 }
 
+const extensionsPaths = (pageURL: string) => `/extensions/${pageURL}`
 const sidebarData = [
 	{
 		url: '/',
@@ -28,7 +28,7 @@ const sidebarData = [
 	},
 
 	{
-		url: '/developer-profile',
+		url: extensionsPaths('dashboard'),
 		icon: <VscTools />,
 	},
 
@@ -53,7 +53,9 @@ const sidebarData = [
 	},
 ]
 
-export const ExtensionsSidebar = () => {
+export const ExtensionsSidebar: React.FC<{ styles: any }> = ({ styles }) => {
+	console.log(styles)
+
 	return (
 		<SidebarLayout<ISidebarData>
 			items={sidebarData}

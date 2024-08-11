@@ -1,5 +1,11 @@
 import { useGetTheme } from '@/hooks/useGetTheme'
-import { Dispatch, SetStateAction, createContext, useContext } from 'react'
+import {
+	Dispatch,
+	SetStateAction,
+	createContext,
+	useContext,
+	useEffect,
+} from 'react'
 
 export type ThemeType = 'light' | 'dark' | 'custom'
 
@@ -17,6 +23,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
 	const { currentTheme, setCurrentTheme } = useGetTheme()
+
+	useEffect(() => {
+		window.api.settings
+			.getSettingsField('settings_view_selectedTheme')
+			.then((theme: any) => {
+				console.log(theme)
+			})
+	}, [])
 
 	return (
 		<ThemeContext.Provider

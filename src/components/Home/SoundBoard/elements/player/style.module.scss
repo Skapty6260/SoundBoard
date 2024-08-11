@@ -1,0 +1,21 @@
+.playerContainer {
+	flex-direction: column;
+	@apply justify-center items-center w-full flex;
+	background: #00000035;
+	backdrop-filter: blur(20px);
+	padding-top: 40px;
+	box-shadow: 0px 0px 10px 10px hsla(0, 0%, 0%, 0.265);
+
+	.soundTimeControls {
+		width: 70%;
+		height: 5px;
+		border-radius: 20px;
+		background: var(--semiTransparent2);
+		appearance: none;
+		outline: none;
+	}
+
+	button {
+		@apply p-2;
+	}
+}

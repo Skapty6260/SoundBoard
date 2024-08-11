@@ -1,11 +1,11 @@
 import path from 'path'
 import { fileURLToPath } from 'node:url'
-import { BrowserWindowConstructorOptions } from 'electron'
+import { app, BrowserWindowConstructorOptions } from 'electron'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const mainWindow: BrowserWindowConstructorOptions = {
-	// frame: false,
+	frame: !app.isPackaged,
 	center: true,
 	fullscreen: false,
 	title: 'Soundboard',
@@ -17,7 +17,7 @@ const mainWindow: BrowserWindowConstructorOptions = {
 		y: 10,
 	},
 	vibrancy: 'under-window',
-	// autoHideMenuBar: true,
+	autoHideMenuBar: app.isPackaged,
 	visualEffectState: 'active',
 
 	width: 800,
@@ -28,10 +28,9 @@ const mainWindow: BrowserWindowConstructorOptions = {
 
 	webPreferences: {
 		preload: path.join(__dirname, 'preload.mjs'),
-		sandbox: false,
-		// allowRunningInsecureContent: false,
-		webSecurity: false,
-		nodeIntegration: true,
+		sandbox: true,
+		webSecurity: app.isPackaged,
+		nodeIntegration: false,
 		contextIsolation: true,
 	},
 

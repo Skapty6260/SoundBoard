@@ -1,6 +1,7 @@
 import Modal from '@/components/ui/Modal'
 import styles from './model.module.scss'
 import { useState } from 'react'
+import { SelectInput } from '@/components/ui/Inputs/Select'
 
 export const CategoriesModal = ({
 	close,
@@ -34,14 +35,11 @@ export const CategoriesModal = ({
 					value={name}
 					onChange={handleName}
 				/>
-				<input
-					type='select'
-					className='cursor-not-allowed'
-					disabled
-					placeholder='Choose Sounds'
-				/>
+				<SelectInput variant='default' selected={['Preinstalled']} />
 
-				<button onClick={handleSubmit}>Create Category</button>
+				<button className={styles.createButton} onClick={handleSubmit}>
+					Create Category
+				</button>
 			</form>
 		</Modal>
 	)

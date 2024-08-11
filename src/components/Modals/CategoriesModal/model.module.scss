@@ -2,14 +2,16 @@
 	@apply flex flex-col items-center text-[var(--invTextColor)] justify-center text-center pb-[50px];
 	font-weight: 700;
 
-	input {
-		@apply py-[20px] pl-[10%] w-full rounded-3xl mb-5;
+	input,
+	button:not(.createButton) {
+		@apply py-[20px] pl-[10%] w-full rounded-3xl mb-5 flex items-center;
 		background: rgba(0, 0, 0, 0.095);
 		border: 0.5px solid #ffffff87;
 		box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.355);
 		outline: none;
 
 		font-size: 20px;
+		color: var(--invTextColor);
 
 		&::placeholder {
 			color: var(--invTextColor);
@@ -17,7 +19,18 @@
 		}
 	}
 
-	button {
+	button:not(.createButton) {
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		backdrop-filter: blur(10px);
+		background: rgba(0, 0, 0, 0.179);
+
+		&:hover {
+			opacity: 90%;
+		}
+	}
+
+	.createButton {
 		@apply w-[50%] py-5 absolute bottom-5 rounded-full;
 
 		font-weight: 900;

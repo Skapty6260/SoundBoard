@@ -1,9 +1,9 @@
-import { ISettingsField, IFieldOptionSettings } from '../../Settings'
+import { HashTable } from '@shared/types'
 import styles from '../../settings.module.scss'
 
 export const SettingsOptionsList: React.FC<{
 	activeField: string | null
-	Fields: ISettingsField[]
+	Fields: HashTable<ISettingsField>
 }> = ({ activeField, Fields }) => {
 	if (activeField == null)
 		return (
@@ -16,16 +16,20 @@ export const SettingsOptionsList: React.FC<{
 
 	return (
 		<ul className={`${styles.optionsList} ${styles.settingsBlock}`}>
-			{Fields.map((field: ISettingsField) => {
-				if (field.name === activeField)
-					return field.fieldOptions.map((subfield, i) => {
+			{Object.keys(Fields).map((key: string) => {
+				if (Fields[key].name === activeField)
+					return Fields[key].fieldOptions.map((subfield: any, i: number) => {
 						return (
 							<li key={i} className={styles.subfield}>
 								<p className='text-[var(--invTextColor)] font-bold text-2xl'>
 									{subfield.optionName}
 								</p>
 								<div className={styles.subfieldOptionsSelector}>
-									<SubfieldAppearance subfield={subfield.optionSettings} />
+									<SubfieldAppearance
+										field={Fields[key]}
+										optionData={subfield.optionData}
+										subfield={subfield.optionSettings}
+									/>
 								</div>
 							</li>
 						)
@@ -35,66 +39,107 @@ export const SettingsOptionsList: React.FC<{
 	)
 }
 
-import { CiBoxList } from 'react-icons/ci'
+import {
+	IFieldOptionSettings,
+	ISettingsField,
+	useSettings,
+} from '@/hooks/useSettings'
+import { useState } from 'react'
+import { SelectInput } from '@/components/ui'
+import { DropdownData } from '@/components/ui/DropDown'
 
-const SubfieldAppearance: React.FC<{ subfield: IFieldOptionSettings }> = ({
-	subfield,
-}) => {
+const SubfieldAppearance: React.FC<{
+	field: any
+	optionData: string
+	subfield: IFieldOptionSettings
+}> = ({ field, optionData, subfield }) => {
+	const { setField } = useSettings()
+
 	const initial = subfield.optionInitialValue
 	const values = subfield.optionValues
 
+	const handleClick = (
+		value: any,
+		select: React.Dispatch<React.SetStateAction<any>>
+	) => {
+		// @ts-ignore
+		setField(`settings_${field.name.toLowerCase()}_${optionData}`, value)
+		select(value)
+	}
+
 	switch (subfield.optionValueType) {
-		case 'choice':
+		case 'choice': {
+			// @ts-ignore
+			const [selected, select] = useState<any>(initial)
+
 			return (
 				<ul className='flex space-x-4 items-center overflow-x-hidden overflow-y-scroll text-[var(--invTextColor)]'>
-					{values.map((value, index) => {
-						return (
-							<li key={index}>
-								<button
-									className={
-										value == initial
-											? 'bg-[var(--activeColor)] py-1 px-3 rounded-[15px] cursor-default transition-all duration-300'
-											: 'cursor-pointer opacity-50 transition-all duration-300'
-									}
-								>
-									{value}
-								</button>
-							</li>
-						)
-					})}
+					{values instanceof Function
+						? 'Loading...'
+						: values.map((value, index) => {
+								return (
+									<li key={index}>
+										<button
+											onClick={() => handleClick(value, select)}
+											className={
+												value == selected
+													? 'bg-[var(--activeColor)] py-1 px-3 rounded-[15px] cursor-default transition-all duration-300'
+													: 'cursor-pointer opacity-50 transition-all duration-300'
+											}
+										>
+											{value}
+										</button>
+									</li>
+								)
+						  })}
 				</ul>
 			)
+		}
 
 		case 'select':
 			return (
-				<button className='bg-[var(--neutralColor)] flex flex-wrap items-center space-x-1 py-1 px-3 rounded-[15px] text-[var(--textColor)]'>
-					<i className='border-r-2 border-r-[var(--textColor)] pr-2 opacity-60'>
-						<CiBoxList />
-					</i>
-					{initial.map((value: string, index: number) => (
-						<div key={index} className='flex-[1 0 50%]'>
-							{value + ','}
-						</div>
-					))}
-				</button>
+				<SelectInput
+					options={values}
+					selected={initial}
+					variant='default'
+					onSelect={(item: DropdownData) => {
+						console.log(item.title)
+					}}
+				/>
 			)
 
-		case 'switch':
+		case 'switch': {
+			const [status, toggle] = useState<string>(initial)
+
 			return (
 				<div className='flex space-x-4 items-center'>
-					<input className={styles.switchCheckbox} type='checkbox' />
+					<button
+						onClick={() =>
+							handleClick(status == 'true' ? 'false' : 'true', toggle)
+						}
+					>
+						{status}
+					</button>
 				</div>
 			)
+		}
 
-		case 'selectOne':
+		case 'selectOne': {
+			// @ts-ignore
+			const [selected, select] = useState<any>(initial)
+
 			return (
-				<button className='bg-[var(--neutralColor)] flex flex-wrap items-center space-x-1 py-1 px-3 rounded-[15px] text-[var(--textColor)] hover:opacity-85 duration-300'>
-					<i className='pr-2 opacity-60'>
-						<CiBoxList />
-					</i>
-
-					<p className='flex-[1 0 50%]'>{initial}</p>
-				</button>
+				<SelectInput
+					onSelect={(item: DropdownData) => {
+						handleClick(item.title, select)
+					}}
+					options={values}
+					selected={selected}
+					disableIcon={true}
+					variant='default'
+					onlyOne={true}
+				/>
 			)
+		}
 	}
 }

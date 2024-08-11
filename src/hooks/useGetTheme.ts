@@ -1,8 +1,21 @@
 import { ThemeType } from '@/providers/ThemeProvider'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export const useGetTheme = () => {
 	const [currentTheme, setCurrentTheme] = useState<ThemeType>('light')
+
+	useEffect(() => {
+		console.warn('Theme Provider Rerendered')
+
+		window.api.settings
+			.getSettingsField('settings_view_selectedTheme')
+			.then((theme: string) => {
+				if (theme == currentTheme) return
+				else {
+					setCurrentTheme(theme.toLowerCase() as ThemeType)
+				}
+			})
+	}, [])
 
 	useMemo(() => {
 		switch (currentTheme) {

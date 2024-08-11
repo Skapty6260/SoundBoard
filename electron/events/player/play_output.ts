@@ -2,7 +2,6 @@ import { app } from 'electron'
 import { registerEvent } from '../registerEvent'
 
 import path from 'node:path'
-import { readFileSync } from 'fs-extra'
 
 const playOutput = async (
 	_event: Electron.IpcMainInvokeEvent,

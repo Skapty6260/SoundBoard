@@ -54,8 +54,6 @@ export const ViewProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	// Sync with store (set)
 	useEffect(() => {
-		console.log(sidebar)
-
 		window.api.store.setValue('view_sidebar', sidebar.status)
 	}, [sidebar])
 
