@@ -27,6 +27,7 @@ const mainWindow: BrowserWindowConstructorOptions = {
 	minWidth: 800,
 
 	webPreferences: {
+		autoplayPolicy: 'user-gesture-required',
 		preload: path.join(__dirname, 'preload.mjs'),
 		sandbox: true,
 		webSecurity: app.isPackaged,

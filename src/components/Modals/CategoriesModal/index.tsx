@@ -35,7 +35,12 @@ export const CategoriesModal = ({
 					value={name}
 					onChange={handleName}
 				/>
-				<SelectInput variant='default' selected={['Preinstalled']} />
+				<SelectInput
+					onSelect={() => console.log('selected')}
+					options={['Preinstalled']}
+					variant='modal'
+					selected={['Preinstalled']}
+				/>
 
 				<button className={styles.createButton} onClick={handleSubmit}>
 					Create Category

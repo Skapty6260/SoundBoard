@@ -79,3 +79,40 @@
 		}
 	}
 }
+
+.TabContent {
+	@apply w-full h-full mt-8;
+
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	ul {
+		@apply flex flex-wrap px-2;
+
+		.Card {
+			@apply w-[30%] h-[220px] relative my-2 mx-2 rounded-xl cursor-pointer flex flex-col items-center;
+			background: var(--semiTransparent);
+			transition: all 0.3s ease-in-out;
+
+			img {
+				transition: all 0.2s ease-in-out;
+				@apply w-full h-full relative object-cover object-left rounded-xl;
+			}
+
+			span {
+				transition: all 0.3s ease-in-out;
+				position: absolute;
+				bottom: 10px;
+				font-size: large;
+				font-weight: 600;
+				text-shadow: 1px 2px 10px var(--neutralColor);
+			}
+
+			&:hover {
+				span {
+					opacity: 0;
+				}
+			}
+		}
+	}
+}

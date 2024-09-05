@@ -11,6 +11,7 @@ import {
 
 import { FaPlay } from 'react-icons/fa' // , FaPause
 import { SoundBoardPlayer } from './player'
+import { usePlayer } from '@/hooks/player/usePlayer'
 
 interface IProps {
 	loading: boolean
@@ -21,62 +22,77 @@ interface IProps {
 
 export const SoundBoardBoard = (props: IProps) => {
 	const [sounds, setSounds] = useState<ISound[]>([])
-	const [currentSound, setCurrentSound] = useState<string>('')
+	// const [currentSound, setCurrentSound] = useState<string>('')
+	// const [soundDuration, setSoundDuration] = useState<number>(0)
 	const [error, setError] = useState(false)
 
-	const audioRef = useRef<any>(null)
+	const audioRef = useRef<HTMLAudioElement>(null)
+	const { play, currentSound, setCurrentSound } = usePlayer()
 
 	const handlePlay = (sound: ISound) => {
 		navigator.mediaDevices.enumerateDevices().then(devices => {
 			console.log(devices)
-
-			// let context = new window.AudioContext()
-			// let audioElement = new Audio()
-
-			// async function playAudio() {
-			// 	// const audioDevices = await devices.filter(device => {
-			// 	// 	return device.kind === 'audioinput' && device.label === 'GM300 Pro' //output to hear in headphones
-			// 	// })
-			// 	const audioDevice = devices[0]
-			// 	// console.log(audioDevice)
-			// 	await audioElement.setSinkId(audioDevice.deviceId)
-
-			// 	let oscillator = context.createOscillator()
-			// 	let mediaStreamDestination = context.createMediaStreamDestination()
-
-			// 	oscillator.connect(mediaStreamDestination)
-			// 	audioElement.srcObject = mediaStreamDestination.stream
-
-			// 	oscillator.start()
-			// 	audioElement.play()
-			// 	await new Promise(r => setTimeout(r, 2000))
-			// 	oscillator.stop()
-			// }
 
 			function fetchAndPlay() {
 				window.api.player
 					.play_toOutput(sound.name)
 					.then(async (path: any) => {
 						setCurrentSound(`file://${path}.${sound.ext}`)
-						// const data = await fetch(`file://${path}`)
-						// const buffer = await data.arrayBuffer()
-						// console.log(buffer)
-
-						// context.decodeAudioData(buffer, decoded => playAudio())
 					})
 					.catch(e => console.error(e))
 			}
+
 			fetchAndPlay()
 		})
 	}
 
 	useEffect(() => {
-		if (audioRef.current) {
-			audioRef.current.pause()
-			audioRef.current.load()
-			audioRef.current.play()
-		}
+		console.log(currentSound)
+
+		if (audioRef.current == null) return
+
+		audioRef.current
+			?.setSinkId('default')
+			.then(() => {
+				audioRef.current?.pause()
+				audioRef.current?.load()
+				audioRef.current?.play()
+			})
+			.catch((e: any) => console.error(e, 'At set sink ID'))
 	}, [currentSound])
+
+	// useEffect(() => {
+	// 	if (audioRef.current) {
+	// 		const audioContext = new AudioContext()
+	// 		fetch(currentSound)
+	// 			.then((response: any) => response.arrayBuffer())
+	// 			.then((arrayBuffer: any) => audioContext.decodeAudioData(arrayBuffer))
+	// 			.then((audioBuffer: any) => {
+	// 				setSoundDuration(audioBuffer?.duration)
+	// 				const audioBufferSourceNode = audioContext.createBufferSource()
+	// 				const mediaStreamAudioDestinationNode =
+	// 					audioContext.createMediaStreamDestination()
+
+	// 				audioBufferSourceNode.buffer = audioBuffer
+	// 				// Maybe it makes sense to loop the buffer.
+	// 				audioBufferSourceNode.loop = true
+
+	// 				audioBufferSourceNode.start()
+
+	// 				audioBufferSourceNode.connect(mediaStreamAudioDestinationNode)
+
+	// 				mediaStreamAudioDestinationNode.stream
+	// 					.getAudioTracks()
+	// 					.forEach(track => console.log(track))
+
+	// 				console.log(mediaStreamAudioDestinationNode.context)
+	// 			})
+
+	// 		// audioRef.current?.pause()
+	// 		// audioRef.current?.load()
+	// 		// audioRef.current?.play()
+	// 	}
+	// }, [currentSound])
 
 	useMemo(() => {
 		if (props.loading !== true) return

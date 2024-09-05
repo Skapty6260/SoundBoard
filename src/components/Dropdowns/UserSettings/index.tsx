@@ -1,16 +1,13 @@
 import { motion } from 'framer-motion'
 
-import { CiLogout, CiLight, CiDark, CiFolderOn } from 'react-icons/ci'
+import { CiLogout, CiFolderOn } from 'react-icons/ci'
 import { PiUserSwitch } from 'react-icons/pi'
-import { useGetTheme } from '@/hooks/useGetTheme'
 
 import { memo, useState } from 'react'
 import { AccountsModal } from '@/components/Modals/AccountModal'
 import { DropDown, DropdownData } from '@/components/ui/DropDown'
 
 const Settings: React.FC = memo(() => {
-	const { currentTheme, setCurrentTheme } = useGetTheme()
-
 	const [modal, setModal] = useState<{
 		modal: React.ReactNode
 		opened: boolean
@@ -20,15 +17,13 @@ const Settings: React.FC = memo(() => {
 	})
 
 	const SettingsData: DropdownData[] = [
-		// Select Theme
-		{
-			title: currentTheme === 'light' ? 'Light' : 'Dark',
-			icon: currentTheme === 'light' ? <CiLight /> : <CiDark />,
-			type: 'button',
-			handler: () => {
-				setCurrentTheme(currentTheme === 'light' ? 'dark' : 'light')
-			},
-		},
+		// // Select Theme
+		// {
+		// 	title: currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1),
+		// 	icon: currentTheme === 'light' ? <CiLight /> : <CiDark />,
+		// 	type: 'button',
+		// 	handler: () => setTheme(theme === 'light' ? 'dark' : 'light'),
+		// },
 
 		// Switch Account
 		{

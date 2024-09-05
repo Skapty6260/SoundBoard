@@ -47,9 +47,10 @@ import {
 import { useState } from 'react'
 import { SelectInput } from '@/components/ui'
 import { DropdownData } from '@/components/ui/DropDown'
+import { ISettingStorageSchema } from '@e/config/store'
 
 const SubfieldAppearance: React.FC<{
-	field: any
+	field: ISettingsField
 	optionData: string
 	subfield: IFieldOptionSettings
 }> = ({ field, optionData, subfield }) => {
@@ -62,8 +63,10 @@ const SubfieldAppearance: React.FC<{
 		value: any,
 		select: React.Dispatch<React.SetStateAction<any>>
 	) => {
-		// @ts-ignore
-		setField(`settings_${field.name.toLowerCase()}_${optionData}`, value)
+		setField(
+			`settings_${field.name.toLowerCase()}_${optionData}` as keyof ISettingStorageSchema,
+			value
+		)
 		select(value)
 	}
 
@@ -97,13 +100,24 @@ const SubfieldAppearance: React.FC<{
 		}
 
 		case 'select':
+			const [selected, select] = useState<any>(initial)
+
 			return (
 				<SelectInput
 					options={values}
-					selected={initial}
+					selected={selected}
 					variant='default'
 					onSelect={(item: DropdownData) => {
-						console.log(item.title)
+						if (initial.includes(item.title)) {
+							return handleClick(
+								initial.filter((i: string) => i != item.title),
+								select
+							)
+							// setField(
+							// 	`settings_${field.name.toLowerCase()}_${optionData}` as keyof ISettingStorageSchema,
+							// 	[]
+							// )
+						} else return handleClick([...initial, item.title], select)
 					}}
 				/>
 			)

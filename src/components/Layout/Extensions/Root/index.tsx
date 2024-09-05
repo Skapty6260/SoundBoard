@@ -3,7 +3,7 @@ import { ExtensionsSidebar } from '../Sidebar'
 import { motion } from 'framer-motion'
 import { TabListComponent } from '@/components/ui'
 
-export const RootExtensionsLayout: React.FC<{
+export const RootExtensionsPageLayout: React.FC<{
 	Children: React.JSXElementConstructor<{ styles: any }>
 	activeField: string
 	setActiveField: React.Dispatch<React.SetStateAction<string>>

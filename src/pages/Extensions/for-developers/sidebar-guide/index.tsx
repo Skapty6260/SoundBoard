@@ -15,7 +15,7 @@ export const Extension_ForDevelopersSidebarGuide: React.FC<{
 
 				switch (itemsPassed) {
 					case 0:
-						setText('Run Guide again')
+						setText('List of extensions (This page)')
 						break
 					case 1:
 						setText('Manage your created extensions (Developing page)')

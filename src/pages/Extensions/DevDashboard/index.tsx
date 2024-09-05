@@ -1,8 +1,8 @@
-import { RootExtensionsLayout } from '@/components/Layout/Extensions/Root'
+import { RootExtensionsPageLayout } from '@/components/Layout/Extensions'
 
 const DeveloperDashboardPage = () => {
 	return (
-		<RootExtensionsLayout
+		<RootExtensionsPageLayout
 			activeField='For Developers'
 			setActiveField={() => null}
 			NavbarFields={[

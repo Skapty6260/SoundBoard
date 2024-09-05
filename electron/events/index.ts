@@ -9,6 +9,7 @@ import {
 } from './store/settings'
 
 // Custom events
+import './extensions/index'
 import './auth/open-auth-window'
 import './player/play_output'
 import './song_store/open_folder'

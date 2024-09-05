@@ -1,7 +1,9 @@
-import { app, BrowserWindow, Menu, MenuItem, Tray } from 'electron'
+import { app, BrowserWindow, dialog, Menu, MenuItem, Tray } from 'electron'
 import { windowsConfig } from './config/windows'
 import { initStore } from './events'
 import { WindowManager } from './services'
+// @ts-ignore
+import pluginManager from 'pluggable-electron/main'
 
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -66,6 +68,8 @@ async function createWindow() {
 	} else {
 		win.loadFile(path.join(RENDERER_DIST, 'index.html'))
 	}
+
+	if (!app.isPackaged) win.webContents.openDevTools()
 }
 
 app.on('window-all-closed', () => {
@@ -78,6 +82,24 @@ app.on('window-all-closed', () => {
 app.commandLine.appendSwitch('use-gl', 'desktop')
 
 app.whenReady().then(async () => {
+	// Init plugins
+	pluginManager.init({
+		// Function to check from the main process that user wants to install a plugin
+		confirmInstall: async (plugins: any) => {
+			const answer = await dialog.showMessageBox({
+				message: `Are you sure you want to install the plugin ${plugins.join(
+					', '
+				)}`,
+				buttons: ['Ok', 'Cancel'],
+				cancelId: 1,
+			})
+			console.log('Main:', answer)
+			return answer.response == 0
+		},
+		// Path to install plugin to
+		pluginsPath: path.join(app.getPath('userData'), 'plugins'),
+	})
+
 	const ctxMenu = new Menu()
 	ctxMenu.append(
 		new MenuItem({

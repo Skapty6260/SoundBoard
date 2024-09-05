@@ -5,6 +5,11 @@ import { STORE_KEYS } from './events/store'
 import { TModalNames } from './config/modals'
 import { SETTINGS_STORE_KEYS } from './events/store/settings'
 
+// Make Pluggable Electron's facade available to hte renderer on window.plugins
+// @ts-ignore
+import useFacade from 'pluggable-electron/facade'
+useFacade()
+
 const IPCrenderer = {
 	on(...args: Parameters<typeof ipcRenderer.on>) {
 		const [channel, listener] = args

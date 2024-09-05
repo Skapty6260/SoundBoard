@@ -13,6 +13,7 @@ import { MdOutlineRefresh } from 'react-icons/md'
 import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { TSoundboardView } from '@shared/types/app'
 import { SidebarLayout } from '@/components/Layout/Sidebar'
+import { motion } from 'framer-motion'
 
 interface IProps {
 	refresh: boolean
@@ -25,19 +26,55 @@ interface IProps {
 const SBViews = [
 	{
 		name: 'Rows',
-		icon: <FaTable />,
+		icon: (
+			<motion.i
+				animate={{
+					rotate: 360,
+					transition: { duration: 1, loop: 1, ease: 'easeInOut' },
+				}}
+			>
+				<FaTable />
+			</motion.i>
+		),
 	},
 	{
 		name: 'List',
-		icon: <FaTableList />,
+		icon: (
+			<motion.i
+				animate={{
+					rotate: 360,
+					transition: { duration: 1, loop: 1, ease: 'easeInOut' },
+				}}
+			>
+				<FaTableList />
+			</motion.i>
+		),
 	},
 	{
 		name: 'Cell',
-		icon: <FaTableCells />,
+		icon: (
+			<motion.i
+				animate={{
+					rotate: 360,
+					transition: { duration: 1, loop: 1, ease: 'easeInOut' },
+				}}
+			>
+				<FaTableCells />
+			</motion.i>
+		),
 	},
 	{
 		name: 'Cols',
-		icon: <FaTableColumns />,
+		icon: (
+			<motion.i
+				animate={{
+					rotate: 360,
+					transition: { duration: 1, loop: 1, ease: 'easeInOut' },
+				}}
+			>
+				<FaTableColumns />
+			</motion.i>
+		),
 	},
 ]
 
@@ -83,7 +120,7 @@ export const SoundBoardControls = (props: IProps) => {
 					<li
 						key={key}
 						className={`w-full h-full ${
-							item.separator == true ? 'cursor-not-allowed' : ''
+							item.separator == true ? 'my-12 cursor-not-allowed' : ''
 						}`}
 					>
 						<button
